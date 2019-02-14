@@ -1,5 +1,5 @@
 # Report Management System
 
-##Entity Diagram
+## Entity Diagram
 
 ![ScreenShot](/Modeling/EntityDiagram.png)
