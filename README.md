@@ -6,5 +6,5 @@
 
 ## Database Schema 
 
-![ScreenShot](/Modeling/database Schema.png)
+![ScreenShot](/Modeling/"database Schema.png")
 
