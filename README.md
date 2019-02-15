@@ -2,7 +2,7 @@
 
 ## Usecase Diagram
 
-![ScreenShot](/Modeling/databaseSchema.png)
+![ScreenShot](/Modeling/UsecaseDiagram.png)
 
 ## Database Schema 
 
