@@ -1,10 +1,16 @@
 # Report Management System
 
-## Entity Diagram
+## Usecase Diagram
 
-![ScreenShot](/Modeling/EntityDiagram.png)
+![ScreenShot](/Modeling/databaseSchema.png)
 
 ## Database Schema 
 
 ![ScreenShot](/Modeling/databaseSchema.png)
+
+## Entity Diagram
+
+![ScreenShot](/Modeling/EntityDiagram.png)
+
+
 
