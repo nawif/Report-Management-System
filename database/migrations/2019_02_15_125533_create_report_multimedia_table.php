@@ -17,7 +17,7 @@ class CreateReportMultimediaTable extends Migration
             $table->increments('id');
             $table->string('path')->unique();
             $table->string('title');
-            $table->foreign('report_id')->references('id')->on('reports'->onDelete('cascade'));
+            $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
             $table->timestamps();
         });
     }
