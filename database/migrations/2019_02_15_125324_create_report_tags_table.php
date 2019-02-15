@@ -15,7 +15,9 @@ class CreateReportTagsTable extends Migration
     {
         Schema::create('report_tags', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('report_id')->unsigned();
             $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
+            $table->integer('tag_id')->unsigned();
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
             $table->timestamps();
         });
