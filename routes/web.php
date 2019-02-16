@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/home1', function () {
+    return view('welcome');
+})->middleware(canView::class);
+
 Route::get('/home', 'HomeController@index')->name('home');

@@ -41,4 +41,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Report');
     }
+
+    public function permission()
+    {
+        return $this->belongsTo('App\GroupPermission');
+    }
+
+    public function getGroups()
+    {
+        return "1";
+    }
 }
