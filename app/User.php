@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -47,7 +47,12 @@ class User extends Authenticatable
         return $this->belongsTo('App\GroupPermission');
     }
 
-    public function getGroups()
+    public function roles()
+    {
+        return $this->hasMany('App\Role');
+    }
+
+    public function getGroups() //TODO:
     {
         return "1";
     }
