@@ -15,10 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::group(['middleware' => canView::class],function(){
+    Route::get('/home1','GroupController@createGroup');
+});
+
 Auth::routes();
 
-Route::get('/home1', function () {
-    return view('welcome');
-})->middleware(canView::class);
+// Route::get('/home1', function () {
+//     return view('welcome');
+// })->middleware(canView::class);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
