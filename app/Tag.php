@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    public function reportTag()
+    public function reports()
     {
-        return $this->hasMany('App\ReportTag');
+        return $this->belongsToMany('App\Report','report_tags') ;
     }
 }

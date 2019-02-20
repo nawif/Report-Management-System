@@ -13,7 +13,7 @@ class Report extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->belongsToMany('App\Tag','report_tags') ;
     }
 
     public function author()
@@ -25,5 +25,5 @@ class Report extends Model
     {
         return $this->belongsToMany('App\Group');
     }
-    
+
 }
