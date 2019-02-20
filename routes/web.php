@@ -22,10 +22,13 @@ Route::group(['middleware' => canView::class],function(){
 
 Auth::routes();
 
-// Route::get('/home1', function () {
-//     return view('welcome');
-// })->middleware(canView::class);
+Route::prefix('report')->group(function () {
+    Route::get('/{id}', 'ReportController@getReport');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/group', 'GroupController@createGroup');
+
 
 
