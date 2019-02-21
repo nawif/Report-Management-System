@@ -102,24 +102,23 @@
           <h5 class="card-header">Tags</h5>
           <div class="card-body">
             <div class="row">
-
-            @for ($i = 0; $i < count($report['tags']); $i+=2)
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <a href="#">{{$report['tags'][$i]['name']}}</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
+              @for ($i = 0; $i < count($report['tags']); $i+=2)
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
                     <li>
-                        @if (count($report['tags'])>$i+1 )
-                            <a href="#">{{$report['tags'][$i+1]['name']}}</a>
-                        @endif
+                      <a href="#">{{$report['tags'][$i]['name']}}</a>
                     </li>
-                </ul>
-              </div>
+                  </ul>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                      <li>
+                          @if (count($report['tags'])>$i+1 )
+                              <a href="#">{{$report['tags'][$i+1]['name']}}</a>
+                          @endif
+                      </li>
+                  </ul>
+                </div>
               @endfor
             </div>
             </div>
@@ -127,9 +126,28 @@
 
         <!-- Side Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Side Widget</h5>
+          <h5 class="card-header">files attached</h5>
           <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            <div class="row">
+              @for ($i = 0; $i < count($report['tags']); $i+=2)
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="#">{{$report['tags'][$i]['name']}}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                      <li>
+                          @if (count($report['tags'])>$i+1 )
+                              <a href="#">{{$report['tags'][$i+1]['name']}}</a>
+                          @endif
+                      </li>
+                  </ul>
+                </div>
+              @endfor
+            </div>
           </div>
         </div>
 

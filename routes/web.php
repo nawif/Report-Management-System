@@ -23,7 +23,9 @@ Route::group(['middleware' => canView::class],function(){
 Auth::routes();
 
 Route::prefix('report')->group(function () {
-    Route::get('/{id}', 'ReportController@getReport');
+    Route::get('/view/{id}', 'ReportController@getReport');
+    Route::get('/create', 'ReportController@createReport');
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
