@@ -209,7 +209,7 @@ button {
   float: right;
 }
 button:hover {
-  background-color: #224c60;
+  background-color: #888;
 }
 
 .clear:after {
