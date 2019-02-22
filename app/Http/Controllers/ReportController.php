@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 use App\Report;
 use App\Group;
-
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Tag;
 
 class ReportController extends Controller
 {
@@ -22,24 +22,42 @@ class ReportController extends Controller
         return $report;
     }
 
-    public function getCreateReportPage(Request $request){
+    public function getCreateReportPage(){
         $groups=Group::all();
-        // dd($groups->name);
         return view('report.createReport',['groups' => $groups]);
-
     }
+
     public function createReport(Request $request){
-        $groups=Group::all();
-        dd($this->extractFormData($request));
+        $data=$this->extractFormData($request);
+        $report= Report::create($data);
+        $this->createTag($data, $report);
+        $this->storeFiles($request);
         return view('report.createReport',['groups' => $groups]);
     }
 
-    public function extractFormData($request)
+    public function createTags($request, $report){
+        if($request['tag']){
+            $tags=explode(',', $request['tag']);
+            foreach ($tags as $tag) {
+                $tagInsert['name']=$tag;
+                $tag=Tag::create($tagInsert);
+                $report->tags()->attach($tag);
+            }
+        }
+    }
+
+    public function storeFiles($request)
     {
+        
+    }
+
+    public function extractFormData($request){
         $data['title']= $request->input('title');
         $data['body']= $request->input('body');
-        $data['tags']= $request->input('tags');
+        $data['tag']= $request->input('tags');
         $data['group']= $request->input('group');
+        $data['author_id']=Auth::user()->id;
+        $data['attachment']= $request->file('attachment');
         return $data;
     }
 }

@@ -9,26 +9,24 @@
 <body>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <form method="post" action="{{url('report/create')}}" accept-charset="UTF-8">
+    <form method="post" action="{{url('report/create')}}" accept-charset="UTF-8" enctype="multipart/form-data">
         @csrf
                 <div class="form-group">
                   <label for="titleInput">@lang('report.title')</label>
-                  <input name="title"  class="form-control" id="titleInput" placeholder="title">
+                  <input required name="title"  class="form-control" id="titleInput" placeholder="title">
                 </div>
 
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">@lang('report.body')</label>
-                    <textarea name="body" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                    <textarea required name="body" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
                 </div>
 
                 <div class="form-group">
                         <label for="exampleFormControlSelect1">@lang('report.group')</label>
-                        <select name="group" class="form-control" id="exampleFormControlSelect1">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                        <select required name="group" class="form-control" id="exampleFormControlSelect1">
+                            @foreach ($groups as $group)
+                        <option value="{{$group->id}}" >{{$group->name}}</option>
+                            @endforeach
                         </select>
                 </div>
                 <div class="form-group">
@@ -39,10 +37,11 @@
 
                 <div class="form-group">
                     <label for="exampleFormControlFile1">@lang('report.file upload')</label>
-                    <input name="files" type="file" class="form-control-file" id="exampleFormControlFile1">
+                    <input multiple name="attachment[]" type="file" class="form-control-file" id="exampleFormControlFile1">
                 </div>
 
                 <button type="submit" class="btn btn-primary">@lang('report.submit')</button>
+    </form>
 </body>
 
 </html>
