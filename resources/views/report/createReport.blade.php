@@ -3,94 +3,46 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Create Report</title>
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-<link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/0.5.1/tailwind.css'>
-
-<link rel="stylesheet" href="{{ asset('css/report-create.css') }}">
-<link rel="stylesheet" href="{{ asset('css/report-tag-add.css') }}">
-<link rel="stylesheet" href="{{ asset('css/report-select-group.css') }}">
-
-
+  <title>@lang('report.create report')</title>
 </head>
 
 <body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <!-- =============================================================================
+    <form method="post" action="{{url('report/create')}}" accept-charset="UTF-8">
+        @csrf
+                <div class="form-group">
+                  <label for="titleInput">@lang('report.title')</label>
+                  <input name="title"  class="form-control" id="titleInput" placeholder="title">
+                </div>
 
-    Title: Simple Hotel booking form
-    Description: Simple Clean form for booking a room
-    Nerds name: Andi
-    Site: http://andi.io
-    Twitter: @gitmash
-    Location: Zurich, Switzerland
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">@lang('report.body')</label>
+                    <textarea name="body" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                </div>
 
-    ==== THANKS ====
+                <div class="form-group">
+                        <label for="exampleFormControlSelect1">@lang('report.group')</label>
+                        <select name="group" class="form-control" id="exampleFormControlSelect1">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="tags">@lang('report.tags')</label>
+                    <input name="tags" class="form-control form-control-sm" id="tags" type="text" placeholder="@lang('report.tags hint')">
+                    <small id="emailHelp" class="form-text text-muted">@lang('report.tags warning')</small>
+                </div>
 
-    Forked from @soulrider911 https://codepen.io/soulrider911/pen/ugnyl/
-    font: Lato (google font)
-    Icon font:   http://fontawesome.io/icons/
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">@lang('report.file upload')</label>
+                    <input name="files" type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
 
-    ==== @TODO ====
-
-    Make <select> easier to select
-
-========================================================================== -->
-
-<form action="">
-  <!--  General -->
-  <div class="form-group">
-    <h2 class="heading">Create a Report</h2>
-    <div class="controls">
-      <input type="text" id="name" class="floatLabel" name="name">
-      <label for="name">Title</label>
-
-    </div>
-  </div>
-  <!--  Details -->
-  <div class="form-group">
-      <div class="grid">
-        <div class="controls">
-          <textarea name="comments" class="floatLabel" id="comments"></textarea>
-          <label for="comments">Comments</label>
-          <div class="tags-input"></div>
-          <p class="tag-p" >Separate your tags with a comma</p>
-          <div class="selectMultipleCont">
-            <select multiple data-placeholder="Group">
-                <option>Sketch</option>
-                <option>Framer X</option>
-                <option>Photoshop</option>
-                <option>Principle</option>
-                <option>Invision</option>
-            </select>
-          </div>
-
-        <input type="file"
-       class="selectMultipleCont"
-       name="filepond"
-       multiple
-       data-max-file-size="3MB"
-       data-max-files="3" />
-          </div>
-            <button type="submit" value="Submit" class="col-1-4">Submit</button>
-      </div>
-  </div> <!-- /.form-group -->
-</form>
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='http://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery-ui-autocomplete.js'></script>
-<script src='http://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.js'></script>
-<script src='http://raw.githubusercontent.com/andiio/selectToAutocomplete/master/jquery.select-to-autocomplete.min.js'></script>
-
-
-    <script  src="{{ asset('js/tags.js') }}"></script>
-    <script  src="{{ asset('js/report-create.js') }}"></script>
-    <script  src="{{ asset('js/report-select-group.js') }}"></script>
-
-
-
-
-
+                <button type="submit" class="btn btn-primary">@lang('report.submit')</button>
 </body>
 
 </html>
