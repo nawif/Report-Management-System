@@ -24,7 +24,6 @@ Route::prefix('report')->group(function () {
     Route::get('/view/{id}', 'ReportController@getReport');
     Route::get('/create', 'ReportController@getCreateReportPage');
     Route::post('/create', 'ReportController@createReport');
-
 });
 
 Auth::routes();

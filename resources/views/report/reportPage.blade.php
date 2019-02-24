@@ -69,10 +69,11 @@
         <!-- Date/Time -->
         <p>Posted on {{$report['updated_at']}}</p>
 
-        <hr>
-
         <!-- Preview Image -->
-        <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+        @isset($report['thumbnail'])
+            <hr>
+            <img class="img-fluid rounded" height="400" width="400" src="{{$report['thumbnail']}}" alt="thumbnail">
+        @endisset
 
         <hr>
         <!-- Post Content -->
@@ -120,36 +121,27 @@
                   </ul>
                 </div>
               @endfor
-            </div>
+             </div>
             </div>
         </div>
 
         <!-- Side Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">files attached</h5>
-          <div class="card-body">
-            <div class="row">
-              @for ($i = 0; $i < count($report['tags']); $i+=2)
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">{{$report['tags'][$i]['name']}}</a>
-                    </li>
-                  </ul>
+        @isset($report['attachment'])
+            <div class="card my-4">
+            <h5 class="card-header">files attached</h5>
+            <div class="card-body">
+                <div class="column">
+                    @foreach ($report['attachment'] as $attachment)
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                        <a href="{{$attachment['url']}}">{{$attachment['title']}}</a>
+                        </li>
+                    </ul>
+                    @endforeach
                 </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                      <li>
-                          @if (count($report['tags'])>$i+1 )
-                              <a href="#">{{$report['tags'][$i+1]['name']}}</a>
-                          @endif
-                      </li>
-                  </ul>
-                </div>
-              @endfor
             </div>
-          </div>
-        </div>
+            </div>
+        @endisset
 
       </div>
 

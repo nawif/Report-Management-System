@@ -6,20 +6,39 @@ use App\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
+use File;
+use App\ReportMultimedia;
 
 class ReportController extends Controller
 {
     public function getReport($id){
-        $report = $this->getReport1($id);
+        $report = $this->getReportData($id);
         return view('report.reportPage',['report' => $report]);
     }
 
-    public function getReport1($id){
+    public function getReportData($id){
         $report = Report::find($id);
         $report['author'] = $report->author()->first()->toArray();
         $report['tags'] = $report->tags->toArray();
+        $report['attachment']=$this->getAttachmentUrls($report);
         $report =$report -> toArray();
         return $report;
+    }
+
+    public function getAttachmentUrls($report){
+        $i=0;
+        if(count($report->multimedia()->get()) == 0){
+            return null;
+        }
+        foreach ($report->multimedia()->get() as $multimedia ) {
+            if(substr(Storage::mimeType($multimedia->path), 0, 5) == 'image'&& !$report['thumbnail']) {
+                $report['thumbnail']=url(Storage::url($multimedia->path));
+            }
+            $attachments[$i]['title']=$multimedia->title;
+            $attachments[$i++]['url']=url(Storage::url($multimedia->path));
+        }
+        return $attachments;
     }
 
     public function getCreateReportPage(){
@@ -30,25 +49,41 @@ class ReportController extends Controller
     public function createReport(Request $request){
         $data=$this->extractFormData($request);
         $report= Report::create($data);
-        $this->createTag($data, $report);
-        $this->storeFiles($request);
+        $this->createTags($data, $report);
+        $this->storeFiles($request, $report->id);
         return view('report.createReport',['groups' => $groups]);
     }
 
     public function createTags($request, $report){
         if($request['tag']){
-            $tags=explode(',', $request['tag']);
+            $tags=array_unique(explode(',', $request['tag']));
             foreach ($tags as $tag) {
                 $tagInsert['name']=$tag;
+                $existingTag= Tag::where('name','=',strtolower($tagInsert['name']))->first();
+                if($existingTag){
+                    $report->tags()->attach($existingTag);
+                    continue;
+                }
+                $tagInsert['name']=strtolower($tagInsert['name']);
                 $tag=Tag::create($tagInsert);
                 $report->tags()->attach($tag);
             }
         }
     }
 
-    public function storeFiles($request)
-    {
-        
+    public function storeFiles($request, $reportID){
+        $path="public/reportAttachments/";
+        if(!$request['attachment']){
+            return;
+        }
+        foreach ($request['attachment'] as $file) {
+            $path=$path.uniqid().".".$file->getClientOriginalExtension();
+            Storage::put($path, file_get_contents($file));
+            $multimedia['report_id']=$reportID;
+            $multimedia['title']=$file->getClientOriginalName();
+            $multimedia['path']=$path;
+            ReportMultimedia::create($multimedia);
+        }
     }
 
     public function extractFormData($request){
