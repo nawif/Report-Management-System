@@ -29,9 +29,9 @@ class Report extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function groups()
+    public function group()
     {
-        return $this->belongsToMany('App\Group');
+        return $this->belongsTo('App\Group');
     }
 
 }
