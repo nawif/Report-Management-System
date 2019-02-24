@@ -9,36 +9,14 @@ use App\Tag;
 use Illuminate\Support\Facades\Storage;
 use File;
 use App\ReportMultimedia;
+use App\Http\Resources\Report as ReportResource;
 
 class ReportController extends Controller
 {
     public function getReport($id){
-        $report = $this->getReportData($id);
-        return view('report.reportPage',['report' => $report]);
-    }
-
-    public function getReportData($id){
-        $report = Report::find($id);
-        $report['author'] = $report->author()->first()->toArray();
-        $report['tags'] = $report->tags->toArray();
-        $report['attachment']=$this->getAttachmentUrls($report);
-        $report =$report -> toArray();
-        return $report;
-    }
-
-    public function getAttachmentUrls($report){
-        $i=0;
-        if(count($report->multimedia()->get()) == 0){
-            return null;
-        }
-        foreach ($report->multimedia()->get() as $multimedia ) {
-            if(substr(Storage::mimeType($multimedia->path), 0, 5) == 'image'&& !$report['thumbnail']) {
-                $report['thumbnail']=url(Storage::url($multimedia->path));
-            }
-            $attachments[$i]['title']=$multimedia->title;
-            $attachments[$i++]['url']=url(Storage::url($multimedia->path));
-        }
-        return $attachments;
+        $reportData= new ReportResource(Report::find($id));
+        $reportData = $reportData->toArray($reportData);
+        return view('report.reportPage',['reports'=> $reportData]);
     }
 
     public function getCreateReportPage(){

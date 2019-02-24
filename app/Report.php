@@ -26,12 +26,13 @@ class Report extends Model
 
     public function author()
     {
-        return $this->belongsTo('App\User');
+        return $this->hasOne('App\User','id','author_id');
     }
 
     public function group()
     {
         return $this->belongsTo('App\Group');
     }
+
 
 }

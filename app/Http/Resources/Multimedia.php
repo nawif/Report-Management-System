@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Multimedia extends JsonResource
 {
@@ -14,7 +15,10 @@ class Multimedia extends JsonResource
      */
     public function toArray($request)
     {
-        return asset(Storage::url($$this->path));
+        return [
+            'url' => $this->getURL(),
+            'title' => $this->title,
+        ];
     }
 
 }

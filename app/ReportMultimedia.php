@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ReportMultimedia extends Model
 {
@@ -15,5 +16,10 @@ class ReportMultimedia extends Model
     public function report()
     {
         return $this->belongsTo('App\Report');
+    }
+
+    public function getURL()
+    {
+        return asset(Storage::url($this->path));
     }
 }

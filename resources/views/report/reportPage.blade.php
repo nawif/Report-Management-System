@@ -56,28 +56,28 @@
       <div class="col-lg-8">
 
         <!-- Title -->
-        <h1 class="mt-4">{{$report['title']}}</h1>
+        <h1 class="mt-4">{{$reports['title']}}</h1>
 
         <!-- Author -->
         <p class="lead">
-          by
-          <a href="#">{{$report['author']['name']}}</a>
+        @lang('report.by')
+          <a href="#">{{$reports['author']['name']}}</a>
         </p>
 
         <hr>
 
         <!-- Date/Time -->
-        <p>Posted on {{$report['updated_at']}}</p>
+        <p>@lang('report.posted on') {{$reports['updated_at']}}</p>
 
         <!-- Preview Image -->
-        @isset($report['thumbnail'])
+        @isset($reports['thumbnail'])
             <hr>
             <img class="img-fluid rounded" height="400" width="400" src="{{$report['thumbnail']}}" alt="thumbnail">
         @endisset
 
         <hr>
         <!-- Post Content -->
-        <p class="lead">{{$report['body']}}</p>
+        <p class="lead">{{$reports['body']}}</p>
         <hr>
 
         </div>
@@ -87,10 +87,10 @@
 
         <!-- Search Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Search</h5>
+          <h5 class="card-header">@lang('report.search')</h5>
           <div class="card-body">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
+              <input type="text" class="form-control" placeholder="@lang('report.search placeholder')">
               <span class="input-group-btn">
                 <button class="btn btn-secondary" type="button">Go!</button>
               </span>
@@ -103,19 +103,19 @@
           <h5 class="card-header">Tags</h5>
           <div class="card-body">
             <div class="row">
-              @for ($i = 0; $i < count($report['tags']); $i+=2)
+              @for ($i = 0; $i < count($reports['tags']); $i+=2)
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                     <li>
-                      <a href="#">{{$report['tags'][$i]['name']}}</a>
+                      <a href="#">{{$reports['tags'][$i]['name']}}</a>
                     </li>
                   </ul>
                 </div>
                 <div class="col-lg-6">
                   <ul class="list-unstyled mb-0">
                       <li>
-                          @if (count($report['tags'])>$i+1 )
-                              <a href="#">{{$report['tags'][$i+1]['name']}}</a>
+                          @if (count($reports['tags'])>$i+1 )
+                              <a href="#">{{$reports['tags'][$i+1]['name']}}</a>
                           @endif
                       </li>
                   </ul>
@@ -126,22 +126,22 @@
         </div>
 
         <!-- Side Widget -->
-        @isset($report['attachment'])
+        {{-- @isset($report['multimedia']) --}}
             <div class="card my-4">
             <h5 class="card-header">files attached</h5>
             <div class="card-body">
                 <div class="column">
-                    @foreach ($report['attachment'] as $attachment)
+                    @foreach ($reports['multimedia'] as $multimedia)
                     <ul class="list-unstyled mb-0">
                         <li>
-                        <a href="{{$attachment['url']}}">{{$attachment['title']}}</a>
+                        <a href="{{$multimedia['url']}}">{{$multimedia['title']}}</a>
                         </li>
                     </ul>
                     @endforeach
                 </div>
             </div>
             </div>
-        @endisset
+        {{-- @endisset --}}
 
       </div>
 
