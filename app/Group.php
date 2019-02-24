@@ -10,10 +10,16 @@ class Group extends Model
     {
         return $this->belongsToMany('App\Report');
     }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
 
     public function permissions()
     {
         return $this->belongsToMany('App\GroupPermission');
     }
-    
+
 }
