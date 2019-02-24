@@ -14,6 +14,6 @@ class Tag extends Model
      protected $fillable = ['name'];
     public function reports()
     {
-        return $this->belongsToMany('App\T','report_tags') ;
+        return $this->belongsToMany('App\Report','report_tags') ;
     }
 }
