@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Resources\Report as ReportResource;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -17,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -53,10 +54,13 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role','users_roles') ;
     }
 
-    public function getAuthorizedArticles($skipBy, $limit)
+    public function getAuthorizedArticles($page, $numOfItemsPerPage)
     {
-        $reportData= new ReportResource(Report::where('group_id','=',$this->group_id)->skip($skipBy)->take($limit));
-        return $reportData->toArray($reportData);
+        $GroupsIDs=$this->groups()->pluck('id')->toArray();
+        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->get();
+        $singlePageWorthReports = $reportsCollection->forPage($page, $numOfItemsPerPage);
+        return ReportResource::collection(($singlePageWorthReports))->toArray(null);
     }
+
 
 }

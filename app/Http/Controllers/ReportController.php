@@ -36,9 +36,11 @@ class ReportController extends Controller
     }
 
     public function getReportList($pageNum){
-        $reportData= new ReportResource(Report::find($id));
-        $reportData = $reportData->toArray($reportData);
-        return view('report.reportList');
+        $reportPerPage = 10;
+
+        $reportData = Auth::user()->getAuthorizedArticles($pageNum,$reportPerPage);
+        dd($reportData);
+        // return view('report.reportList', 'reports' => $reportData);
 
     }
 
