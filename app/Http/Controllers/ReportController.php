@@ -39,8 +39,8 @@ class ReportController extends Controller
         $reportPerPage = 10;
 
         $reportData = Auth::user()->getAuthorizedArticles($pageNum,$reportPerPage);
-        dd($reportData);
-        // return view('report.reportList', 'reports' => $reportData);
+        // dd($reportData);
+        return view('report.reportList', ['reports' => $reportData]);
 
     }
 
