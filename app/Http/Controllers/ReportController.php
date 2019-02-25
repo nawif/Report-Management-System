@@ -13,6 +13,9 @@ use App\Http\Resources\Report as ReportResource;
 
 class ReportController extends Controller
 {
+    /*
+        Routes Method
+    */
     public function getReport($id){
         $reportData= new ReportResource(Report::find($id));
         $reportData = $reportData->toArray($reportData);
@@ -31,6 +34,16 @@ class ReportController extends Controller
         $this->storeFiles($request, $report->id);
         return view('report.createReport',['groups' => $groups]);
     }
+
+    public function getReportList($pageNum){
+        return view('report.reportList');
+
+    }
+
+
+    /*
+        Helpers
+    */
 
     public function createTags($request, $report){
         if($request['tag']){
