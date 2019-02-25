@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    public function reports()
-    {
-        return $this->belongsToMany('App\Report');
-    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,9 +14,14 @@ class Group extends Model
      */
     protected $fillable = ['name'];
 
-    public function permissions()
+    public function users()
     {
-        return $this->belongsToMany('App\GroupPermission');
+        return $this->belongsToMany('App\User','users_groups') ;
+    }
+
+    public function reports()
+    {
+        return $this->hasMany('App\Report');
     }
 
 }
