@@ -11,7 +11,7 @@ class Report extends Model
      *
      * @var array
      */
-     protected $fillable = ['title','body', 'author_id'];
+     protected $fillable = ['title','body', 'author_id', 'group_id'];
 
 
     public function multimedia()
@@ -26,7 +26,7 @@ class Report extends Model
 
     public function author()
     {
-        return $this->hasOne('App\User','id','author_id');
+        return $this->belongsTo('App\User','id','author_id');
     }
 
     public function group()
