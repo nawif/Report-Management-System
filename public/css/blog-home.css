@@ -6,3 +6,7 @@
 body {
   padding-top: 56px;
 }
+.thumb {
+    width: 100%;
+    height: auto;
+  }
