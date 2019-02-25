@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Http\Resources\Report as ReportResource;
 
 class User extends Authenticatable
 {
@@ -49,11 +50,13 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->hasMany('App\Role');
+        return $this->belongsToMany('App\Role','users_roles') ;
     }
 
-    public function getGroups() //TODO:
+    public function getAuthorizedArticles($skipBy, $limit)
     {
-        return "1";
+        $reportData= new ReportResource(Report::where('group_id','=',$this->group_id)->skip($skipBy)->take($limit));
+        return $reportData->toArray($reportData);
     }
+
 }
