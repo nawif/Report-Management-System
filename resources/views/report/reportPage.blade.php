@@ -72,7 +72,7 @@
         <!-- Preview Image -->
         @isset($reports['thumbnail'])
             <hr>
-            <img class="img-fluid rounded" height="400" width="400" src="{{$report['thumbnail']}}" alt="thumbnail">
+            <img class="img-fluid rounded" height="400" width="400" src="{{$reports['thumbnail']['url']}}" alt="thumbnail">
         @endisset
 
         <hr>

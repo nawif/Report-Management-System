@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Report extends Model
 {
@@ -26,7 +27,7 @@ class Report extends Model
 
     public function author()
     {
-        return $this->belongsTo('App\User','id','author_id');
+        return $this->belongsTo('App\User');
     }
 
     public function group()
@@ -34,5 +35,15 @@ class Report extends Model
         return $this->belongsTo('App\Group');
     }
 
+
+    public function getThumbnail()
+    {
+        foreach ($this->multimedia()->get() as $multimedia) {
+            $file = Storage::mimeType($multimedia->path);
+            if (substr($file, 0, 5) == 'image') {
+                return $multimedia->id;
+            }
+        }
+    }
 
 }

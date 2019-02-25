@@ -23,7 +23,7 @@ class ReportController extends Controller
     }
 
     public function getCreateReportPage(){
-        $groups=Group::all();
+        $groups=Auth::user()->groups()->get();
         return view('report.createReport',['groups' => $groups]);
     }
 
@@ -36,6 +36,8 @@ class ReportController extends Controller
     }
 
     public function getReportList($pageNum){
+        $reportData= new ReportResource(Report::find($id));
+        $reportData = $reportData->toArray($reportData);
         return view('report.reportList');
 
     }
@@ -81,9 +83,10 @@ class ReportController extends Controller
         $data['title']= $request->input('title');
         $data['body']= $request->input('body');
         $data['tag']= $request->input('tags');
-        $data['group']= $request->input('group');
+        $data['group_id']= $request->input('group');
         $data['author_id']=Auth::user()->id;
         $data['attachment']= $request->file('attachment');
         return $data;
     }
+
 }
