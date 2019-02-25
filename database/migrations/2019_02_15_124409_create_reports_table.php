@@ -14,11 +14,20 @@ class CreateReportsTable extends Migration
     public function up()
     {
         Schema::create('reports', function (Blueprint $table) {
+            
             $table->increments('id');
             $table->string('title');
             $table->text('body');
+
             $table->integer('author_id')->unsigned();
-            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('groups')->onDelete('cascade');
+
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+
+            $table->integer('thumbnail_id')->unsigned();
+            $table->foreign('thumbnail_id')->references('id')->on('report_multimedia')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
