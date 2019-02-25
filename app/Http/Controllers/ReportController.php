@@ -37,11 +37,17 @@ class ReportController extends Controller
 
     public function getReportList($pageNum){
         $reportPerPage = 10;
-
         $reportData = Auth::user()->getAuthorizedArticles($pageNum,$reportPerPage);
-        // dd($reportData);
-        return view('report.reportList', ['reports' => $reportData]);
+        $reportData['hasNext'] = false;
+        return view('report.reportList', ['reports' => $reportData , 'currentPage' => $pageNum]);
 
+    }
+
+    public function getAuthorReportList($author_id, $pageNum)
+    {
+        $reportPerPage = 10;
+        $report = Auth::user()->getReportsByAuthor($author_id,$pageNum,$reportPerPage);
+        dd($report);
     }
 
 

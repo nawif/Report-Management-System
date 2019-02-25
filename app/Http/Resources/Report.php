@@ -20,6 +20,12 @@ class Report extends JsonResource
      */
     public function toArray($request)
     {
+        $multimedia = ReportMultimedia::find($this->getThumbnail());
+
+        if($multimedia)
+            $thumbnail=(new MultimediaResource($multimedia))->toArray($request);
+        else
+            $thumbnail=null;
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -32,7 +38,7 @@ class Report extends JsonResource
             'multimedia' => MultimediaResource::collection($this->multimedia()->get())->toArray($request),
             'group' => (new GroupResource($this->group()->first()))->toArray($request),
 
-            'thumbnail' => (new MultimediaResource(ReportMultimedia::find($this->getThumbnail())))->toArray($request),
+            'thumbnail' => $thumbnail,
         ];
     }
 

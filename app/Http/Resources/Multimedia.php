@@ -15,6 +15,7 @@ class Multimedia extends JsonResource
      */
     public function toArray($request)
     {
+        if(is_null($this->path)) return [];
         return [
             'url' => $this->getURL(),
             'title' => $this->title,

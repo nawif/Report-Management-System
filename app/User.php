@@ -62,5 +62,13 @@ class User extends Authenticatable
         return ReportResource::collection(($singlePageWorthReports))->toArray(null);
     }
 
+    public function getReportsByAuthor($author_id, $page, $numOfItemsPerPage)
+    {
+        $GroupsIDs=$this->groups()->pluck('id')->toArray();
+        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
+        $singlePageWorthReports = $reportsCollection->forPage($page, $numOfItemsPerPage);
+        return ReportResource::collection(($singlePageWorthReports))->toArray(null);
+    }
+
 
 }

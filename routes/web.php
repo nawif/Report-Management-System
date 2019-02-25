@@ -25,6 +25,8 @@ Route::prefix('report')->group(function () {
     Route::get('/create', 'ReportController@getCreateReportPage');
     Route::post('/create', 'ReportController@createReport');
     Route::get('/home/{pageNum}', 'ReportController@getReportList');
+    Route::get('/author/{author_id}/{pageNum}', 'ReportController@getAuthorReportList');
+
 
 });
 

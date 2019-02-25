@@ -59,18 +59,18 @@
         <!-- Blog Post -->
         @foreach ($reports as $report)
             <div class="card mb-4">
-                @isset($record)
+            @isset($report['thumbnail'])
+                <img id="thumbnail" class="thumb" src={{$report['thumbnail']['url']}} alt="Card image cap">
+            @endisset
 
-                @endisset
-            <img id="thumbnail" class="thumb" src={{$report['thumbnail']['url']}} alt="Card image cap">
             <div class="card-body">
                 <h2 class="card-title">{{$report['title']}}</h2>
                 <p class="card-text">{{$report['body']}}</p>
-                <a href="" class="btn btn-primary">Read More &rarr;</a>
+                <a href="{{ url('/report/view/' . $report['id']) }}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                 Posted on {{$report['created_at']}} by
-                <a href="#">{{$report['author']['name']}}</a>
+                <a href="{{ url('/report/author/'.$report['author']['id']) .'/1'}}">{{$report['author']['name']}}</a>
             </div>
             </div>
         @endforeach
@@ -78,7 +78,7 @@
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
           <li class="page-item">
-            <a class="page-link" href="#">&larr; Older</a>
+            <a class="page-link" href={{2}}>&larr; Older</a>
           </li>
           <li class="page-item disabled">
             <a class="page-link" href="#">Newer &rarr;</a>

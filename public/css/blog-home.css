@@ -1,4 +1,4 @@
-/*!
+/*
  * Start Bootstrap - Blog Home (https://startbootstrap.com/template-overviews/blog-home)
  * Copyright 2013-2019 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-home/blob/master/LICENSE)
@@ -7,6 +7,6 @@ body {
   padding-top: 56px;
 }
 .thumb {
-    width: 100%;
-    height: auto;
+    object-fit: cover;
+    height: 300px;
   }
