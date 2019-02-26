@@ -6,6 +6,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Resources\Report as ReportResource;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 class User extends Authenticatable
@@ -54,20 +57,30 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role','users_roles') ;
     }
 
-    public function getAuthorizedArticles($page, $numOfItemsPerPage)
+    public function getAuthorizedArticles()
     {
         $GroupsIDs=$this->groups()->pluck('id')->toArray();
         $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->get();
-        $singlePageWorthReports = $reportsCollection->forPage($page, $numOfItemsPerPage);
-        return ReportResource::collection(($singlePageWorthReports))->toArray(null);
+        $reports = ReportResource::collection(($reportsCollection))->toArray(null);
+        $reports=$this->paginate($reports);
+        return $reports;
     }
 
-    public function getReportsByAuthor($author_id, $page, $numOfItemsPerPage)
+    public function getReportsByAuthor($author_id)
     {
         $GroupsIDs=$this->groups()->pluck('id')->toArray();
         $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
-        $singlePageWorthReports = $reportsCollection->forPage($page, $numOfItemsPerPage);
-        return ReportResource::collection(($singlePageWorthReports))->toArray(null);
+        $reports = ReportResource::collection(($reportsCollection))->toArray(null);
+        $reports=$this->paginate($reports);
+        return $reports;
+    }
+
+    public function paginate($items, $perPage = 15, $page = null)
+    {
+        $options = ['path' => Paginator::resolveCurrentPath()];
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
 
