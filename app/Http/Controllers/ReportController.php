@@ -35,18 +35,16 @@ class ReportController extends Controller
         return view('report.createReport',['groups' => $groups]);
     }
 
-    public function getReportList($pageNum){
-        $reportPerPage = 10;
-        $reportData = Auth::user()->getAuthorizedArticles($pageNum,$reportPerPage);
-        $reportData['hasNext'] = false;
-        return view('report.reportList', ['reports' => $reportData , 'currentPage' => $pageNum]);
+    public function getReportList($pageNum = 1){
+        $reportData = Auth::user()->getAuthorizedArticles($pageNum);
+        return view('report.reportList', ['reports' => $reportData ]);
 
     }
 
-    public function getAuthorReportList($author_id, $pageNum)
+    public function getAuthorReportList($author_id)
     {
-        $reportPerPage = 10;
-        $report = Auth::user()->getReportsByAuthor($author_id,$pageNum,$reportPerPage);
+        $reports = Auth::user()->getReportsByAuthor($author_id);
+        return view('report.reportList', ['reports' => $reports]);
         dd($report);
     }
 
