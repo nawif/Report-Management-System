@@ -32,11 +32,12 @@ class ReportController extends Controller
         $report= Report::create($data);
         $this->createTags($data, $report);
         $this->storeFiles($request, $report->id);
-        return view('report.createReport',['groups' => $groups]);
+        $this->getReportList();
     }
 
     public function getReportList($pageNum = 1){
         $reportData = Auth::user()->getAuthorizedArticles($pageNum);
+        // dd($reportData);
         return view('report.reportList', ['reports' => $reportData ]);
 
     }
@@ -45,7 +46,6 @@ class ReportController extends Controller
     {
         $reports = Auth::user()->getReportsByAuthor($author_id);
         return view('report.reportList', ['reports' => $reports]);
-        dd($report);
     }
 
 

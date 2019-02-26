@@ -65,7 +65,7 @@
 
             <div class="card-body">
                 <h2 class="card-title">{{$report['title']}}</h2>
-                <p class="card-text">{{$report['body']}}</p>
+                <p class="card-text">{{str_limit($report['body'],200)}}</p>
                 <a href="{{ url('/report/view/' . $report['id']) }}" class="btn btn-primary">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
@@ -76,17 +76,7 @@
         @endforeach
 
         <!-- Pagination -->
-            {{$reports->links()}}
-
-        {{-- <ul class="pagination justify-content-center mb-4">
-          <li class="page-item">
-            <a class="page-link" href={{2}}>&larr; Older</a>
-          </li>
-          <li class="page-item disabled">
-            <a class="page-link" href="#">Newer &rarr;</a>
-          </li>
-        </ul> --}}
-
+        {{$reports->links()}}
       </div>
 
       <!-- Sidebar Widgets Column -->
@@ -102,6 +92,13 @@
                 <button class="btn btn-secondary" type="button">Go!</button>
               </span>
             </div>
+            <select>
+                <option>Author</option>
+                <option>Tags</option>
+                <option>Report Content</option>
+                <option>Report Name</option>
+                <option>Group</option>
+            </select>
           </div>
         </div>
 
