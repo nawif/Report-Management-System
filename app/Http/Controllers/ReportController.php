@@ -6,9 +6,12 @@ use App\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Tag;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
-use File;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\ReportMultimedia;
+use App\User;
 use App\Http\Resources\Report as ReportResource;
 
 class ReportController extends Controller
@@ -35,10 +38,9 @@ class ReportController extends Controller
         $this->getReportList();
     }
 
-    public function getReportList($pageNum = 1){
-        $reportData = Auth::user()->getAuthorizedArticles($pageNum);
-        // dd($reportData);
-        return view('report.reportList', ['reports' => $reportData ]);
+    public function getReportList($alert = null){
+        $reportData = Auth::user()->getAuthorizedArticles();
+        return view('report.reportList', ['reports' => $reportData , 'alert' => $alert]);
 
     }
 
@@ -48,10 +50,58 @@ class ReportController extends Controller
         return view('report.reportList', ['reports' => $reports]);
     }
 
+    public function search(Request $request)
+    {
+        $searchBy = $request->get('searchBy');
+        $searchVal = $request->get('searchVal');
+        $queryResault = $this->querySearch($searchBy, $searchVal);
+        return view('gridList',['list' => $queryResault, 'title' => ($queryResault) ? $searchBy."s" : "" ]);
+    }
+
+    public function getReportsByTag($tag){
+        $user = Auth::user();
+        $userGroups = $user->getGroupsID();
+        $Tag = Tag::where('name', '=',$tag)->first();
+        if(!$Tag){
+            return $this->getReportList(['type'=>'danger','message' => 'no reports with such tag']);
+        }
+        $reports=$Tag->reports()->whereIn('group_id',$userGroups)->get();
+        $reports = ReportResource::collection(($reports))->toArray(null);
+        $reports=$this->paginate($reports);
+        return view('report.reportList', ['reports' => $reports]);
+    }
 
     /*
         Helpers
     */
+
+    public function querySearch($searchBy, $searchVal)
+    {
+        $user = Auth::user();
+        $userGroupsIds = $user->groups()->get()->pluck('id')->toArray();
+        switch ($searchBy) {
+            case 'author':
+            $authors=User::where('name', 'like', '%'.$searchVal.'%')->get()->toArray();
+            return($authors);
+            case 'tag':
+                $tags = Tag::where('name', 'like', '%'.$searchVal.'%')->get()->toArray();
+                return($tags);
+            case 'content':
+                $reports = Report::whereIn('group_id',$userGroupsIds)->where('body','like','%'.$searchVal.'%')->get();
+                dd($reports);
+                break;
+            case 'title':
+                $reports = Report::whereIn('group_id',$userGroupsIds)->where('title','like','%'.$searchVal.'%')->get();
+                dd($reports);
+                break;
+            case 'group':
+                $groups = $user->groups()->get()->toArray();
+                return($groups);
+            default:
+                return null;
+                break;
+        }
+    }
 
     public function createTags($request, $report){
         if($request['tag']){
@@ -94,5 +144,14 @@ class ReportController extends Controller
         $data['attachment']= $request->file('attachment');
         return $data;
     }
+
+    public function paginate($items, $perPage = 15, $page = null)
+    {
+        $options = ['path' => Paginator::resolveCurrentPath()];
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
 
 }

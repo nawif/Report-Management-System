@@ -22,10 +22,12 @@ Route::group(['middleware' => canView::class],function(){
 
 Route::prefix('report')->group(function () {
     Route::get('/view/{id}', 'ReportController@getReport');
+    Route::get('/tag/{tag}', 'ReportController@getReportsByTag');
     Route::get('/create', 'ReportController@getCreateReportPage');
     Route::post('/create', 'ReportController@createReport');
     Route::get('/home', 'ReportController@getReportList');
     Route::get('/author/{author_id}/{pageNum}', 'ReportController@getAuthorReportList');
+    Route::get('/search', 'ReportController@search');
 
 
 });

@@ -7,8 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Resources\Report as ReportResource;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class User extends Authenticatable
@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function reports()
     {
-        return $this->hasMany('App\Report');
+        return $this->hasMany('App\Report','author_id');
     }
 
     public function groups()
@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function getAuthorizedArticles()
     {
-        $GroupsIDs=$this->groups()->pluck('id')->toArray();
+        $GroupsIDs=$this->getGroupsID();
         $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->get();
         $reports = ReportResource::collection(($reportsCollection))->toArray(null);
         $reports=$this->paginate($reports);
@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function getReportsByAuthor($author_id)
     {
-        $GroupsIDs=$this->groups()->pluck('id')->toArray();
+        $GroupsIDs=$this->getGroupsID();
         $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
         $reports = ReportResource::collection(($reportsCollection))->toArray(null);
         $reports=$this->paginate($reports);
@@ -83,5 +83,9 @@ class User extends Authenticatable
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
+    public function getGroupsID()
+    {
+        return $this->groups()->pluck('id')->toArray();
+    }
 
 }
