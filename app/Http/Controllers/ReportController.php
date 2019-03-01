@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Report;
-use App\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Tag;
@@ -36,17 +35,19 @@ class ReportController extends Controller
         $this->createTags($data, $report);
         $this->storeFiles($request, $report->id);
         $this->getReportList();
+        return $this->getReportList(['type'=>'success','message' => 'report  created successfully']);
+
     }
 
     public function getReportList($alert = null){
-        $reportData = Auth::user()->getAuthorizedArticles();
+        $reportData = $this->getAuthorizedArticles();
         return view('report.reportList', ['reports' => $reportData , 'alert' => $alert]);
 
     }
 
     public function getAuthorReportList($author_id)
     {
-        $reports = Auth::user()->getReportsByAuthor($author_id);
+        $reports = $this->getReportsByAuthor($author_id);
         return view('report.reportList', ['reports' => $reports]);
     }
 
@@ -54,8 +55,14 @@ class ReportController extends Controller
     {
         $searchBy = $request->get('searchBy');
         $searchVal = $request->get('searchVal');
-        $queryResault = $this->querySearch($searchBy, $searchVal);
-        return view('gridList',['list' => $queryResault, 'title' => ($queryResault) ? $searchBy."s" : "" ]);
+        $queryResult = $this->querySearch($searchBy, $searchVal);
+        if(!$queryResult)
+            return $this->getReportList(['type'=>'danger','message' => 'there are no results that match your search']);
+        if(in_array($searchBy,['content', 'title'])){
+            $reports = $this->prepareReports($queryResult);
+            return view('report.reportList', ['reports' => $reports]);
+        }else
+            return view('gridList',['list' => $queryResult, 'title' => ($queryResult) ? $searchBy."s" : "" ]);
     }
 
     public function getReportsByTag($tag){
@@ -66,19 +73,23 @@ class ReportController extends Controller
             return $this->getReportList(['type'=>'danger','message' => 'no reports with such tag']);
         }
         $reports=$Tag->reports()->whereIn('group_id',$userGroups)->get();
-        $reports = ReportResource::collection(($reports))->toArray(null);
-        $reports=$this->paginate($reports);
+        $reports = $this->prepareReports($reports);
         return view('report.reportList', ['reports' => $reports]);
     }
 
     /*
         Helpers
     */
-
+    public function prepareReports($reports)
+    {
+        $reports = ReportResource::collection(($reports))->toArray(null);
+        $reports=$this->paginate($reports);
+        return $reports;
+    }
     public function querySearch($searchBy, $searchVal)
     {
         $user = Auth::user();
-        $userGroupsIds = $user->groups()->get()->pluck('id')->toArray();
+        $userGroupsIds = $user->getGroupsID();
         switch ($searchBy) {
             case 'author':
             $authors=User::where('name', 'like', '%'.$searchVal.'%')->get()->toArray();
@@ -88,15 +99,20 @@ class ReportController extends Controller
                 return($tags);
             case 'content':
                 $reports = Report::whereIn('group_id',$userGroupsIds)->where('body','like','%'.$searchVal.'%')->get();
-                dd($reports);
+                return($reports);
                 break;
             case 'title':
                 $reports = Report::whereIn('group_id',$userGroupsIds)->where('title','like','%'.$searchVal.'%')->get();
-                dd($reports);
+                return($reports);
                 break;
             case 'group':
                 $groups = $user->groups()->get()->toArray();
-                return($groups);
+                $matchedGroups=[];
+                foreach ($groups as $group) {
+                    if(preg_match('%'.$searchVal.'%', $group['name']))
+                        $matchedGroups[]=$group;
+                }
+                return($matchedGroups);
             default:
                 return null;
                 break;
@@ -153,5 +169,22 @@ class ReportController extends Controller
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
+    public function getAuthorizedArticles()
+    {
+        $user = Auth::user();
+        $GroupsIDs=$user->getGroupsID();
+        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->get();
+        $reports= $this->prepareReports($reportsCollection);
+        return $reports;
+    }
+
+    public function getReportsByAuthor($author_id)
+    {
+        $user = Auth::user();
+        $GroupsIDs=$user->getGroupsID();
+        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
+        $reports= $this->prepareReports($reportsCollection);
+        return $reports;
+    }
 
 }
