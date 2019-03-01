@@ -57,32 +57,6 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role','users_roles') ;
     }
 
-    public function getAuthorizedArticles()
-    {
-        $GroupsIDs=$this->getGroupsID();
-        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->get();
-        $reports = ReportResource::collection(($reportsCollection))->toArray(null);
-        $reports=$this->paginate($reports);
-        return $reports;
-    }
-
-    public function getReportsByAuthor($author_id)
-    {
-        $GroupsIDs=$this->getGroupsID();
-        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
-        $reports = ReportResource::collection(($reportsCollection))->toArray(null);
-        $reports=$this->paginate($reports);
-        return $reports;
-    }
-
-    public function paginate($items, $perPage = 15, $page = null)
-    {
-        $options = ['path' => Paginator::resolveCurrentPath()];
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-    }
-
     public function getGroupsID()
     {
         return $this->groups()->pluck('id')->toArray();
