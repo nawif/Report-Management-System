@@ -15,6 +15,7 @@
         <form method="post" action="{{url('report/create')}}" accept-charset="UTF-8" enctype="multipart/form-data">
             @csrf
                     <div class="form-group">
+                    @include('shared.errorAlertList')
                     <label for="titleInput">@lang('report.title')</label>
                     <input required name="title"  class="form-control" id="titleInput" placeholder="title">
                     </div>

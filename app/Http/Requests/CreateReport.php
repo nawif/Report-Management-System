@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateReport extends FormRequest
 {
@@ -13,7 +14,7 @@ class CreateReport extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -24,7 +25,9 @@ class CreateReport extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'group' => 'required',
         ];
     }
 }

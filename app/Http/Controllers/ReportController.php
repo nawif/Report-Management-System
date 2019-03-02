@@ -12,6 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use App\ReportMultimedia;
 use App\User;
 use App\Http\Resources\Report as ReportResource;
+use App\Http\Requests\CreateReport;
 
 class ReportController extends Controller
 {
@@ -29,7 +30,8 @@ class ReportController extends Controller
         return view('report.createReport',['groups' => $groups]);
     }
 
-    public function createReport(Request $request){
+    public function createReport(CreateReport $request){
+        $request->validated();
         $data=$this->extractFormData($request);
         $report= Report::create($data);
         $this->createTags($data, $report);
