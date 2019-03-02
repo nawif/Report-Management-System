@@ -72,7 +72,7 @@
             </div>
             <div class="card-footer text-muted">
                 Posted on {{$report['created_at']}} by
-                <a href="{{ url('/report/author/'.$report['author']['id']) .'/1'}}">{{$report['author']['name']}}</a>
+                <a href="{{ url('/report/author/'.$report['author']['name'])}}">{{$report['author']['name']}}</a>
             </div>
             </div>
         @endforeach
