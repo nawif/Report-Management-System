@@ -54,7 +54,7 @@
         @if(is_array($list) || is_object($list))
         <div class="row ">
             @foreach ($list as $item)
-            <div class="col-4"> <a href={{"hello/".$item["id"]}}>{{$item["name"]}}</a> </div>
+            <div class="col-4"> <a href={{ url('report/'.$title.'/'.str_replace(' ','-',$item['name'])) }}>{{$item["name"]}}</a> </div>
 
             @endforeach
         </div>
