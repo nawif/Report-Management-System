@@ -126,7 +126,7 @@
         </div>
 
         <!-- Side Widget -->
-        {{-- @isset($report['multimedia']) --}}
+        @isset($reports['multimedia'])
             <div class="card my-4">
             <h5 class="card-header">files attached</h5>
             <div class="card-body">
@@ -141,7 +141,7 @@
                 </div>
             </div>
             </div>
-        {{-- @endisset --}}
+        @endisset
 
       </div>
 
