@@ -6,7 +6,7 @@
           <div class="col-lg-6">
              <ul class="list-unstyled mb-0">
                 <li>
-                   <a href="#">{{$reports['tags'][$i]['name']}}</a>
+                    <a href={{url('/report/tag/'.str_replace(' ','-',$reports['tags'][$i]['name']))}}>{{$reports['tags'][$i]['name']}}</a>
                 </li>
              </ul>
           </div>
@@ -14,7 +14,7 @@
              <ul class="list-unstyled mb-0">
                 <li>
                    @if (count($reports['tags'])>$i+1 )
-                   <a href="#">{{$reports['tags'][$i+1]['name']}}</a>
+                   <a href={{url('/report/tag/'.str_replace(' ','-',$reports['tags'][$i+1]['name']))}}>{{$reports['tags'][$i+1]['name']}}</a>
                    @endif
                 </li>
              </ul>

@@ -43,7 +43,6 @@
             </div>
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
-               <!-- Search Widget -->
                 @include('shared.searchbox')
             </div>
          </div>
@@ -51,14 +50,8 @@
       </div>
       <!-- /.container -->
       <!-- Footer -->
-      <footer class="py-5 bg-dark">
-         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-         </div>
+      @include('shared.footer')
          <!-- /.container -->
       </footer>
-      <!-- Bootstrap core JavaScript -->
-      <script src="vendor/jquery/jquery.min.js"></script>
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
    </body>
 </html>

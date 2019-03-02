@@ -5,6 +5,7 @@ return [
     /*
     View, Create Report Pages
     */
+    'app name' =>'Report Management System',
     'create report' => 'Create Report',
     'title' => 'Title',
     'body' => 'Body',

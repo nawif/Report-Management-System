@@ -15,12 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::group(['middleware' => canView::class],function(){
-    Route::get('/home1','GroupController@createGroup');
-});
-
-Route::prefix('report')->group(function () {
+Route::prefix('report')->middleware('auth')->group(function () {
     Route::get('/home', 'ReportController@getReportList');
     Route::get('/view/{id}', 'ReportController@getReport');
 
@@ -32,9 +27,8 @@ Route::prefix('report')->group(function () {
     Route::get('/author/{author_id}', 'ReportController@getAuthorReportList');
     Route::get('/tag/{tag}', 'ReportController@getReportsByTag');
 
-
-
 });
+
 
 Auth::routes();
 
