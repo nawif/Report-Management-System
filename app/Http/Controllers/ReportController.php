@@ -45,10 +45,13 @@ class ReportController extends Controller
 
     }
 
-    public function getAuthorReportList($author_id)
+    public function getAuthorReportList($author_name)
     {
-        $reports = $this->getReportsByAuthor($author_id);
-        return view('report.reportList', ['reports' => $reports]);
+        $reports = $this->getReportsByAuthor($author_name);
+        if($reports)
+            return view('report.reportList', ['reports' => $reports]);
+        else
+            return $this->getReportList(['type'=>'danger','message' => 'there are no results that match your search']);
     }
 
     public function search(Request $request)
@@ -178,10 +181,14 @@ class ReportController extends Controller
         return $reports;
     }
 
-    public function getReportsByAuthor($author_id)
+    public function getReportsByAuthor($author_name)
     {
         $user = Auth::user();
         $GroupsIDs=$user->getGroupsID();
+        $author= User::where('name','=',$author_name)->first();
+        if(!$author)
+            return null;
+        $author_id=$author->first()->id;
         $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
         $reports= $this->prepareReports($reportsCollection);
         return $reports;
