@@ -45,8 +45,8 @@ class ReportController extends Controller
 
     }
 
-    public function getAuthorReportList($author_name)
-    {
+    public function getAuthorReportList($author_name){
+        $author_name = str_replace('-',' ',$author_name);
         $reports = $this->getReportsByAuthor($author_name);
         if($reports)
             return view('report.reportList', ['reports' => $reports]);
@@ -64,13 +64,17 @@ class ReportController extends Controller
         if(in_array($searchBy,['content', 'title'])){
             $reports = $this->prepareReports($queryResult);
             return view('report.reportList', ['reports' => $reports]);
-        }else
-            return view('gridList',['list' => $queryResult, 'title' => ($queryResult) ? $searchBy."s" : "" ]);
+
+        }else{
+
+        }
+            return view('gridList',['list' => $queryResult, 'title' => $searchBy]);
     }
 
     public function getReportsByTag($tag){
         $user = Auth::user();
         $userGroups = $user->getGroupsID();
+        $tag = str_replace('-',' ',$tag);
         $Tag = Tag::where('name', '=',$tag)->first();
         if(!$Tag){
             return $this->getReportList(['type'=>'danger','message' => 'no reports with such tag']);
