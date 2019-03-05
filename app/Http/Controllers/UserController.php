@@ -9,17 +9,22 @@ use App\Role;
 
 class UserController extends Controller
 {
-    public function getUsers()
+    //ONLY ADMIN
+    public function getUsers($alerts =null)
     {
         $users = User::paginate(15);
         $roles = Role::all();
-        return view('usersList' , ['users' => $users,'roles' => $roles]);
+        return view('usersList' , ['users' => $users,'roles' => $roles, 'alert' => $alert]);
     }
-    public function updateUserRoles(Request $request, $id)
+
+    //ONLY ADMIN
+    public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        dd($request);
-        // $user->
+        $roles = $request->input('roles');
+        if($roles)
+            $user->roles()->sync($roles);
+        return $this->getUsers(['type'=>'success','message' => 'user '.$user->name.' updated!']);
 
     }
 }

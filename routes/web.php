@@ -31,8 +31,8 @@ Route::prefix('report')->middleware('auth')->group(function () {
 
 Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('/list', 'UserController@getUsers');
-    Route::delete('/delete/{id}', 'UserController@getUsers');
-    Route::patch('/update/{id}', 'UserController@updateUserRoles');
+    Route::delete('/{id}', 'UserController@delete');
+    Route::patch('/{id}', 'UserController@update');
 
 
 });
