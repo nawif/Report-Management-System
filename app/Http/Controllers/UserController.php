@@ -24,7 +24,7 @@ class UserController extends Controller
         $roles = $request->input('roles');
         if($roles)
             $user->roles()->sync($roles);
-        return $this->getUsers(['type'=>'success','message' => 'user '.$user->name.' updated!']);
+        return $this->getUsers(['type'=>'success','message' => 'User '.$user->name.' information updated!']);
 
     }
 }
