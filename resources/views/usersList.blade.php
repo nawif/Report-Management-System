@@ -10,6 +10,7 @@
    <body>
       <!-- Navigation -->
       @include('shared.nav')
+      @include('shared.alert')
       <div class="container" style="margin-top: 100px;">
          <table class="table table-hover">
             <!-- TABLE HEADERS -->

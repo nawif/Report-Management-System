@@ -10,7 +10,7 @@ use App\Role;
 class UserController extends Controller
 {
     //ONLY ADMIN
-    public function getUsers($alerts =null)
+    public function getUsers($alert =null)
     {
         $users = User::paginate(15);
         $roles = Role::all();
