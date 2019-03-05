@@ -26,6 +26,12 @@ Route::prefix('report')->middleware('auth')->group(function () {
     Route::get('/search', 'ReportController@search');
     Route::get('/author/{author_id}', 'ReportController@getAuthorReportList');
     Route::get('/tag/{tag}', 'ReportController@getReportsByTag');
+});
+
+
+Route::prefix('users')->middleware('auth')->group(function () {
+    Route::get('/list', 'UserController@getUsers');
+    Route::delete('/delete/{id}', 'UserController@getUsers');
 
 });
 
