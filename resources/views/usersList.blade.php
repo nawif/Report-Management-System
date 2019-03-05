@@ -18,7 +18,7 @@
                   <th scope="col">#</th>
                   <th scope="col">name</th>
                   <th scope="col">email</th>
-                  <th scope="col">Roles</th>
+                  <th scope="col">Account Type</th>
                   <th scope="col">Registered at</th>
                   <th scope="col">Action</th>
                </tr>
@@ -26,29 +26,29 @@
             <tbody>
             @foreach ($users as $user)
                <tr>
-                  <th scope="row">1</th>
+               <th scope="row">{{$user->id}}</th>
                   <td>{{$user->name}}</td>
                   <td>{{$user->email}}</td>
                   <td>
-                     <span class="label label-danger">Admin</span>
-                     <span class="label label-primary">Author</span>
-                     <span class="label label-success">Viewer</span>
+                      @if ($user->is_admin)
+                        <span class="label label-danger">Admin</span>
+                      @else
+                        <span class="label label-primary">User</span>
+                      @endif
                   </td>
                   <td>{{$user->created_at}}</td>
                   <td>
-                     <form style="display:inline-block" method="POST" action="{{url('users/delete/1')}}" accept-charset="UTF-8" >
+                     <form style="display:inline-block" method="POST" action={{url('users/delete/'.$user->id)}} accept-charset="UTF-8" >
                         @method("DELETE")
                         @csrf
                         <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-remove"></span> Remove
                         </button>
                      </form>
-                     <form style="display:inline-block" method="GET" action="{{url('users/delete/1')}}" accept-charset="UTF-8" >
-                        @csrf
-                        <button type="submit" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-edit"></span> Edit
+                        @include('editUsersModal')
+                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-edit"></span> Edit Roles
                         </button>
-                     </form>
                   </td>
                </tr>
                @endforeach
