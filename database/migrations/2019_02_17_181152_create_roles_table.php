@@ -15,22 +15,27 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('role');
+            $table->string('name');
             $table->timestamps();
         });
         DB::table('roles')->insert(
             array(
-                'role' => 'viewer',
+                'name' => 'View',
             )
         );
         DB::table('roles')->insert(
             array(
-                'role' => 'author',
+                'name' => 'Delete',
             )
         );
         DB::table('roles')->insert(
             array(
-                'role' => 'admin',
+                'name' => 'Edit',
+            )
+        );
+        DB::table('roles')->insert(
+            array(
+                'name' => 'Create',
             )
         );
     }
