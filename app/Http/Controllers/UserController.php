@@ -27,4 +27,13 @@ class UserController extends Controller
         return $this->getUsers(['type'=>'success','message' => 'User '.$user->name.' information updated!']);
 
     }
+
+    public function delete($id)
+    {
+        $user = User::find($id)->delete();
+        if($user)
+            return $this->getUsers(['type'=>'success','message' => 'User information deleted!']);
+        else
+            return $this->getUsers(['type'=>'danger','message' => 'No user with such id']);
+    }
 }

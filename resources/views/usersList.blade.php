@@ -39,7 +39,7 @@
                   </td>
                   <td>{{$user->created_at}}</td>
                   <td>
-                     <form style="display:inline-block" method="POST" action={{url('users/delete/'.$user->id)}} accept-charset="UTF-8" >
+                     <form style="display:inline-block" method="POST" action={{url('users/'.$user->id)}} accept-charset="UTF-8" >
                         @method("DELETE")
                         @csrf
                         <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
@@ -47,7 +47,7 @@
                         </button>
                      </form>
                         @include('editUsersModal')
-                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-default btn-sm">
+                        <button type="button" data-toggle="modal" data-target={{"#".$user->id}} class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-edit"></span> Edit Roles
                         </button>
                   </td>
