@@ -29,6 +29,8 @@ return [
     'report content' => 'Report Content',
     'report name' => 'Report Name',
     'group' => 'Group',
+    'no report' => 'Sorry, no reports to view',
+
 
 
 ];

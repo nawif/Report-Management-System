@@ -6,7 +6,7 @@
             <form style="display:inline-block" method="POST" action={{url('users/'.$user->id)}} accept-charset="UTF-8" >
                 @csrf
                 @method('PATCH')
-        <h5 class="modal-title" id="exampleModalLabel">Edit {{$user->name}} Roles</h5>
+        <h5 class="modal-title" id="exampleModalLabel">@lang('user.edit user roles',['name' => $user->name])</h5>
       </div>
       <div class="modal-body">
                 <div class="form-group">
@@ -24,8 +24,8 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">@lang('report.submit')</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('user.edit roles cancel')</button>
+        <button type="submit" class="btn btn-primary">@lang('user.edit roles submit')</button>
     </form>
 
       </div>

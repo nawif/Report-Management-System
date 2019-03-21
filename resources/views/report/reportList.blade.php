@@ -23,6 +23,9 @@
             <div class="col-md-8">
                <br>
                <!-- Blog Post -->
+               @if($reports)
+                   <h1>@lang('report.no report')</h1>
+               @endif
                @foreach ($reports as $report)
                <div class="card mb-4">
                   @isset($report['thumbnail'])
@@ -52,6 +55,5 @@
       <!-- Footer -->
       @include('shared.footer')
          <!-- /.container -->
-      </footer>
    </body>
 </html>

@@ -16,12 +16,12 @@
             <!-- TABLE HEADERS -->
             <thead>
                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">name</th>
-                  <th scope="col">email</th>
-                  <th scope="col">Account Type</th>
-                  <th scope="col">Registered at</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">@lang('user.number')</th>
+                  <th scope="col">@lang('user.name')</th>
+                  <th scope="col">@lang('user.email')</th>
+                  <th scope="col">@lang('user.account type')</th>
+                  <th scope="col">@lang('user.registered at')</th>
+                  <th scope="col">@lang('user.action')</th>
                </tr>
             </thead>
             <tbody>
@@ -32,9 +32,9 @@
                   <td>{{$user->email}}</td>
                   <td>
                       @if ($user->is_admin)
-                        <span class="label label-danger">Admin</span>
+                        <span class="label label-danger">@lang('user.admin')</span>
                       @else
-                        <span class="label label-primary">User</span>
+                        <span class="label label-primary">@lang('user.user')</span>
                       @endif
                   </td>
                   <td>{{$user->created_at}}</td>
@@ -43,12 +43,12 @@
                         @method("DELETE")
                         @csrf
                         <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-remove"></span> Remove
+                        <span class="glyphicon glyphicon-remove"></span> @lang('user.remove')
                         </button>
                      </form>
                         @include('editUsersModal')
                         <button type="button" data-toggle="modal" data-target={{"#".$user->id}} class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-edit"></span> Edit Roles
+                        <span class="glyphicon glyphicon-edit"></span> @lang('user.edit roles')
                         </button>
                   </td>
                </tr>
