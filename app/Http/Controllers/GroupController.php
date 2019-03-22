@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Group;
+use App\User;
+use Symfony\Component\Console\Input\Input;
+use Illuminate\Database\QueryException;
 
 class GroupController extends Controller
 {
@@ -11,9 +15,11 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($alert =null )
     {
-        //
+        $groups = Group::paginate(15);
+        $users = User::all();
+        return view('group.index' , ['groups' => $groups, 'users' => $users, 'alert' => $alert]);
     }
 
     /**
@@ -56,7 +62,7 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -68,7 +74,17 @@ class GroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $group = Group::findOrFail($id);
+        $users = $request->input('users');
+        $group->name = $request->input('group_name');
+        try {
+        $group->save();
+        } catch (QueryException $th) {
+            return $this->index(['type'=>'danger','message' => 'Group '.$group->name.' information didn\'t updated!']);
+        }
+        if($users)
+            $group->users()->sync($users);
+        return $this->index(['type'=>'success','message' => 'Group '.$group->name.' information updated!']);
     }
 
     /**
@@ -79,6 +95,10 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $group = Group::find($id)->delete();
+        if($group)
+            return $this->index(['type'=>'success','message' => 'Group information deleted!']);
+        else
+            return $this->index(['type'=>'danger','message' => 'No group with such id']);
     }
 }

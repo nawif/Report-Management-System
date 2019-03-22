@@ -29,12 +29,16 @@ Route::prefix('report')->middleware('auth')->group(function () {
 });
 
 
-Route::prefix('users')->middleware('auth')->group(function () {
+Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/list', 'UserController@getUsers');
     Route::delete('/{id}', 'UserController@delete');
     Route::patch('/{id}', 'UserController@update');
+});
 
-
+Route::prefix('group')->middleware('auth')->group(function () {
+    Route::get('/', 'GroupController@index');
+    Route::delete('/{id}', 'GroupController@destroy');
+    Route::patch('/{id}', 'GroupController@update');
 });
 
 
@@ -42,8 +46,6 @@ Auth::routes();
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/group', 'GroupController@createGroup');
 
 
 
