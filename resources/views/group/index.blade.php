@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>@lang('report.create report')</title>
+    <title>@lang('group.manage groups')</title>
     @include('shared.dependencies')
 </head>
 
@@ -16,28 +16,28 @@
             <!-- TABLE HEADERS -->
             <thead>
                 <tr>
-                    <th scope="col">@lang('user.number')</th>
-                    <th scope="col">@lang('user.name')</th>
-                    <th scope="col">Create at</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">@lang('group.group id')</th>
+                    <th scope="col">@lang('group.name')</th>
+                    <th scope="col">@lang('group.created at')</th>
+                    <th scope="col">@lang('group.action')</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($groups as $group)
                 <tr>
-                    <th scope="row">{{$group->id}}</th>
+                    <td scope="row">{{$group->id}}</td>
                     <td>{{$group->name}}</td>
                     <td>{{$group->created_at}}</td>
                     <td>
                         <form style="display:inline-block" method="POST" action={{url( 'group/'.$group->id)}} accept-charset="UTF-8" > @method("DELETE") @csrf
-                            <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-remove"></span> @lang('user.remove')
+                        <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-remove"></span> @lang('group.remove')
                         </button>
                         </form>
-                        @include('group.editGroupModal')
                         <button type="button" data-toggle="modal" data-target={{ "#".$group->id}} class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-edit"></span> @lang('user.edit roles')
+                        <span class="glyphicon glyphicon-edit"></span> @lang('group.edit')
                         </button>
+                        @include('group.editGroupModal')
                     </td>
                 </tr>
                 @endforeach
