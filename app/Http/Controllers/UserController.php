@@ -45,11 +45,13 @@ class UserController extends Controller
 
     public function delete($id)
     {
-        $user = User::find($id)->delete();
-        if($user)
+        $user = User::find($id);
+        if($user){
+            $user->delete();
             return redirect()->action(
                 'UserController@index', ['type'=>'success','message' => 'User information deleted!']
             );
+        }
         else
             return redirect()->action(
                 'UserController@index', ['type'=>'danger','message' => 'No user with such id']
