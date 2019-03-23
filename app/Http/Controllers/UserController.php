@@ -6,17 +6,28 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Role;
 use App\Group;
+use Illuminate\Support\Facades\Input;
 
 
 class UserController extends Controller
 {
     //ONLY ADMIN
-    public function getUsers($alert =null)
+    public function index()
     {
+        $alert=null;
+        $alertType=Input::get('type');
+        $alertMessage=Input::get('message');
+
+        if($alertType && $alertMessage){
+            $alert['type']=$alertType;
+            $alert['message']=$alertMessage;
+
+        }
+
         $users = User::paginate(15);
         $roles = Role::all();
-        $groups = Group::all();
-        return view('user.usersList' , ['users' => $users,'roles' => $roles, 'groups' => $groups, 'alert' => $alert]);
+
+        return view('user.usersList' , ['users' => $users,'roles' => $roles, 'alert' => $alert]);
     }
 
     //ONLY ADMIN
@@ -26,7 +37,9 @@ class UserController extends Controller
         $roles = $request->input('roles');
         if($roles)
             $user->roles()->sync($roles);
-        return $this->getUsers(['type'=>'success','message' => 'User '.$user->name.' information updated!']);
+        return redirect()->action(
+            'UserController@index', ['type'=>'success','message' => 'User '.$user->name.' information updated!']
+        );
 
     }
 
@@ -34,8 +47,12 @@ class UserController extends Controller
     {
         $user = User::find($id)->delete();
         if($user)
-            return $this->getUsers(['type'=>'success','message' => 'User information deleted!']);
+            return redirect()->action(
+                'UserController@index', ['type'=>'success','message' => 'User information deleted!']
+            );
         else
-            return $this->getUsers(['type'=>'danger','message' => 'No user with such id']);
+            return redirect()->action(
+                'UserController@index', ['type'=>'danger','message' => 'No user with such id']
+            );
     }
 }

@@ -3,15 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>@lang('report.create report')</title>
+    <title>@lang('user.users list')</title>
     @include('shared.dependencies')
 </head>
 
 <body>
     <!-- Navigation -->
     @include('shared.nav')
-    @include('shared.alert')
     <div class="container">
+        @include('shared.alert')
         <table class="table table-hover">
             <!-- TABLE HEADERS -->
             <thead>
@@ -39,7 +39,7 @@
                     </td>
                     <td>{{$user->created_at}}</td>
                     <td>
-                        <form style="display:inline-block" method="POST" action={{url( 'users/'.$user->id)}} accept-charset="UTF-8" > @method("DELETE") @csrf
+                        <form style="display:inline-block" method="POST" action={{url( 'user/'.$user->id)}} accept-charset="UTF-8" > @method("DELETE") @csrf
                             <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-remove"></span> @lang('user.remove')
                                 </button>
@@ -47,7 +47,7 @@
                         @include('user.editUsersModal')
                         <button type="button" data-toggle="modal" data-target={{ "#".$user->id}} class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-edit"></span> @lang('user.edit roles')
-                                </button>
+                        </button>
                     </td>
                 </tr>
                 @endforeach

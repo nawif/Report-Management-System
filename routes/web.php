@@ -30,7 +30,7 @@ Route::prefix('report')->middleware('auth')->group(function () {
 
 
 Route::prefix('user')->middleware('auth')->group(function () {
-    Route::get('/', 'UserController@getUsers');
+    Route::get('/', 'UserController@index');
     Route::delete('/{id}', 'UserController@delete');
     Route::patch('/{id}', 'UserController@update');
 });

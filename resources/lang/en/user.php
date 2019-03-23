@@ -1,12 +1,12 @@
 <?php
 
 return [
-
+    'users list' => 'Users List',
     'edit user roles' =>'Edit :name Roles',
     'edit roles submit' =>'Save',
     'edit roles cancel' =>'Cancel',
 
-    'number' => '#',
+    'number' => 'User ID',
     'name' => 'Name',
     'email' => 'email',
     'account type' => 'Account Type	',
