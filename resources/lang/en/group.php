@@ -5,7 +5,7 @@ return [
     /*
     View, Create Group
     */
-    'create group' => 'Create Group',
+    'create group' => 'Create new group',
     'manage groups' => 'Manage Groups',
     'name' => 'name',
     'created at' => 'Created at',

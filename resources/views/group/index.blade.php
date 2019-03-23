@@ -12,6 +12,12 @@
     @include('shared.nav')
     <div class="container" style="margin-top: 100px;">
     @include('shared.alert')
+
+    <button type="button" data-toggle="modal" data-target="#create" class="btn btn-primary">
+         @lang('group.create group')
+        </button>
+        @include('group.createGroupModal')
+
         <table class="table table-hover">
             <!-- TABLE HEADERS -->
             <thead>

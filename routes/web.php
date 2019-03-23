@@ -30,7 +30,7 @@ Route::prefix('report')->middleware('auth')->group(function () {
 
 
 Route::prefix('user')->middleware('auth')->group(function () {
-    Route::get('/list', 'UserController@getUsers');
+    Route::get('/', 'UserController@getUsers');
     Route::delete('/{id}', 'UserController@delete');
     Route::patch('/{id}', 'UserController@update');
 });
@@ -39,6 +39,8 @@ Route::prefix('group')->middleware('auth')->group(function () {
     Route::get('/', 'GroupController@index');
     Route::delete('/{id}', 'GroupController@destroy');
     Route::patch('/{id}', 'GroupController@update');
+    Route::post('/create', 'GroupController@store');
+
 });
 
 

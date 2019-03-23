@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Group;
 use App\User;
-use Symfony\Component\Console\Input\Input;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Input;
 
 class GroupController extends Controller
 {
@@ -15,11 +15,18 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($alert =null )
+    public function index()
     {
+        $alert=null;
+        $alertType=Input::get('type');
+        $alertMessage=Input::get('message');
+        if($alertType && $alertMessage){
+            $alert['type']=$alertType;
+            $alert['message']=$alertMessage;
+
+        }
         $groups = Group::paginate(15);
-        $users = User::all();
-        return view('group.index' , ['groups' => $groups, 'users' => $users, 'alert' => $alert]);
+        return view('group.index' , ['groups' => $groups, 'alert' => $alert]);
     }
 
     /**
@@ -40,7 +47,16 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $group = Group::create(array('name' => $request->input('group_name')));
+        } catch (QueryException $th) {
+            return redirect()->action(
+                'GroupController@index', ['type'=>'danger','message' => 'Group '.$request->input('group_name').' already exist!']
+            );
+        }
+        return redirect()->action(
+            'GroupController@index', ['type'=>'success','message' => 'Group '.$group->name.' created!']
+        );
     }
 
     /**
@@ -80,11 +96,17 @@ class GroupController extends Controller
         try {
         $group->save();
         } catch (QueryException $th) {
-            return $this->index(['type'=>'danger','message' => 'Group '.$group->name.' information didn\'t updated!']);
+            return redirect()->action(
+                'GroupController@index', ['type'=>'danger','message' => 'Group '.$group->name.' information didn\'t updated!']
+            );
+
         }
         if($users)
             $group->users()->sync($users);
-        return $this->index(['type'=>'success','message' => 'Group '.$group->name.' information updated!']);
+        return redirect()->action(
+            'GroupController@index', ['type'=>'success','message' => 'Group '.$group->name.' information updated!']
+        );
+
     }
 
     /**
@@ -97,8 +119,12 @@ class GroupController extends Controller
     {
         $group = Group::find($id)->delete();
         if($group)
-            return $this->index(['type'=>'success','message' => 'Group information deleted!']);
+            return redirect()->action(
+                'GroupController@index', ['type'=>'success','message' => 'Group information deleted!']
+            );
         else
-            return $this->index(['type'=>'danger','message' => 'No group with such id']);
+            return redirect()->action(
+                'GroupController@index', ['type'=>'danger','message' => 'No group with such id']
+            );
     }
 }

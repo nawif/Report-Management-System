@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Role;
+use App\Group;
 
 
 class UserController extends Controller
@@ -14,7 +15,8 @@ class UserController extends Controller
     {
         $users = User::paginate(15);
         $roles = Role::all();
-        return view('usersList' , ['users' => $users,'roles' => $roles, 'alert' => $alert]);
+        $groups = Group::all();
+        return view('user.usersList' , ['users' => $users,'roles' => $roles, 'groups' => $groups, 'alert' => $alert]);
     }
 
     //ONLY ADMIN
