@@ -65,9 +65,13 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showUserList($id)
     {
-        //
+        $user = User::find($id);
+        $groups = Group::paginate(15);
+
+        return view('group.userGroupList', ['user' => $user, 'groups' => $groups]);
+
     }
 
     /**

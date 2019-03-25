@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Role;
-use App\Group;
 use Illuminate\Support\Facades\Input;
 
 
@@ -35,14 +34,19 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = $request->input('roles');
+        $groups = $request->input('groups');
         if($roles)
             $user->roles()->sync($roles);
+        if($groups)
+            $user->groups()->sync($groups);
+
         return redirect()->action(
             'UserController@index', ['type'=>'success','message' => 'User '.$user->name.' information updated!']
         );
 
     }
 
+    //ONLY ADMIN
     public function delete($id)
     {
         $user = User::find($id);

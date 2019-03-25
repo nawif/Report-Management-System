@@ -15,6 +15,7 @@ return [
     'admin' => 'Admin',
     'user' => 'User',
     'remove' => 'Remove',
+    'groups' => 'Groups',
     'edit roles' => 'Edit Roles',
     'delete user conform' => 'Are you sure you want to Remove?',
 

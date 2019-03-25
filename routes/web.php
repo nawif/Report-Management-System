@@ -40,6 +40,7 @@ Route::prefix('group')->middleware('auth')->group(function () {
     Route::delete('/{id}', 'GroupController@destroy');
     Route::patch('/{id}', 'GroupController@update');
     Route::post('/create', 'GroupController@store');
+    Route::get('/user/{id}', 'GroupController@showUserList');
 
 });
 

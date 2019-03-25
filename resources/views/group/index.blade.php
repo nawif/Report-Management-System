@@ -10,7 +10,7 @@
 <body>
     <!-- Navigation -->
     @include('shared.nav')
-    <div class="container" style="margin-top: 100px;">
+    <div class="container" >
     @include('shared.alert')
 
     <button type="button" data-toggle="modal" data-target="#create" class="btn btn-primary">
@@ -50,7 +50,7 @@
 
             </tbody>
         </table>
-        <div align="center">
+        <div style="display: table; margin-right: auto; margin-left: auto;">
             {{ $groups->links() }}
         </div>
     </div>

@@ -39,10 +39,15 @@
                     </td>
                     <td>{{$user->created_at}}</td>
                     <td>
+                        <form style="display:inline-block" method="GET" action="{{url('group/user/'.$user->id)}}" accept-charset="UTF-8" > @csrf
+                            <button type="submit" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-th-list"></span> @lang('user.groups')
+                            </button>
+                        </form>
                         <form style="display:inline-block" method="POST" action={{url( 'user/'.$user->id)}} accept-charset="UTF-8" > @method("DELETE") @csrf
                             <button type="submit" onclick="return confirm('Are you sure you want to Remove?');" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-remove"></span> @lang('user.remove')
-                                </button>
+                            </button>
                         </form>
                         @include('user.editUsersModal')
                         <button type="button" data-toggle="modal" data-target={{ "#".$user->id}} class="btn btn-default btn-sm">

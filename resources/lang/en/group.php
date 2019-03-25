@@ -10,6 +10,7 @@ return [
     'name' => 'name',
     'created at' => 'Created at',
     'group' => 'Group',
+    'save' => 'Save Changes',
     'action' => 'Action',
     'remove' => 'Remove',
     'edit' => 'Edit',
