@@ -42,6 +42,12 @@
             </div>
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
+                <div style="margin-top:65px" >
+                        <form method="GET" action={{url('report/edit/'.$reports->id)}}>
+                    <button type="submit" class="btn btn-primary btn-lg">@lang('report.edit')</button>
+                        </form>
+                </div>
+
                <!-- Search Widget -->
                @include('shared.searchbox')
                <!-- Tags Widget -->

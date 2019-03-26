@@ -94,13 +94,15 @@ class ReportController extends Controller
     public function update(CreateReport $request, $id){
         $request->validated();
         $report = Report::find($id);
-        // dd();
+        $data = $this->extractFormData($request);
         $report->update($request->Input());
-        $tags = $request->Input('tags');
-        if($tags){
+
+        if($data['tag']){
             $report->tags()->detach();
-            $this->createTags(['tag' => $tags], $report);
+            $this->createTags($data, $report);
         }
+
+        $this->storeFiles($data,$report->id);
         $report->save();
         return view('report.editReport', ['report' => $report]);
     }
@@ -156,7 +158,7 @@ class ReportController extends Controller
                 $tagInsert['name']=$tag;
                 if(empty(ltrim(strtolower($tagInsert['name']))))
                     continue;
-                    
+
                 $existingTag= Tag::where('name','=',ltrim(strtolower($tagInsert['name'])))->first();
                 if($existingTag){
                     $report->tags()->attach($existingTag);
@@ -174,6 +176,7 @@ class ReportController extends Controller
         if(!$request['attachment']){
             return;
         }
+
         foreach ($request['attachment'] as $file) {
             $path=$path.uniqid().".".$file->getClientOriginalExtension();
             Storage::put($path, file_get_contents($file));

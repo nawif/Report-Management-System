@@ -31,8 +31,6 @@ return [
     'group' => 'Group',
     'no report' => 'Sorry, no reports to view',
     'posted on' => 'Posted on :date',
-    'files' => 'files attached'
-
-
-
+    'files' => 'files attached',
+    'edit' => 'Edit Report',
 ];
