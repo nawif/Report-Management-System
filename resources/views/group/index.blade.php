@@ -54,6 +54,7 @@
             {{ $groups->links() }}
         </div>
     </div>
+    @include('shared.footer')
 </body>
 
 </html>

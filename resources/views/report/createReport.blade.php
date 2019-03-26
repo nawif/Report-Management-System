@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <title>@lang('report.create report')</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  @include('shared.dependencies')
 </head>
 
 <body>
 
         <!-- Navigation -->
       @include('shared.nav')
-      <div class="container" style="margin-top: 55px;">
+      <div class="container" >
         <form method="post" action="{{url('report/create')}}" accept-charset="UTF-8" enctype="multipart/form-data">
             @csrf
                     <div class="form-group">
@@ -47,6 +47,7 @@
                     <button type="submit" class="btn btn-primary">@lang('report.submit')</button>
         </form>
       </div>
+      @include('shared.footer')
 </body>
 
 </html>

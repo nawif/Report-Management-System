@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -60,5 +62,25 @@ class UserController extends Controller
             return redirect()->action(
                 'UserController@index', ['type'=>'danger','message' => 'No user with such id']
             );
+    }
+
+    public function editForm()
+    {
+        $user = Auth::user();
+        return view('auth.editUser',['user'=>$user]);
+    }
+
+    public function edit(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'name' => 'required|unique:users,name,'.$user->id.'|max:40',
+            'password' => 'required|min:10|max:40',
+        ]);
+        $user = Auth::user();
+        $user->name=$request->input('name');
+        $user->password=Hash::make($request->input('password'));
+        $user->save();
+        return view('auth.editUser',['user'=>$user]);
     }
 }

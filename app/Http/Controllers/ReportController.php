@@ -193,7 +193,7 @@ class ReportController extends Controller
         $author= User::where('name','=',$author_name)->first();
         if(!$author)
             return null;
-        $author_id=$author->first()->id;
+        $author_id=$author->id;
         $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
         $reports= $this->prepareReports($reportsCollection);
         return $reports;

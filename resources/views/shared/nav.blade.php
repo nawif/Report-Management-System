@@ -3,20 +3,24 @@
       <a class="navbar-brand" href="#">@lang('report.app name')</a>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
+          <li class="nav-item">
+            <a class="nav-link" href={{url('/report/home')}}>Home
+              {{-- <span class="sr-only">(current)</span> --}}
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href={{url('/report/create')}}>Create Report</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href={{url('/user')}}>Users</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href={{url('/group')}}>Groups</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Account</a>
+          </li>
+
         </ul>
       </div>
     </div>

@@ -31,6 +31,8 @@ Route::prefix('report')->middleware('auth')->group(function () {
 
 Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/', 'UserController@index');
+    Route::get('/me', 'UserController@editForm');
+    Route::patch('/me', 'UserController@edit');
     Route::delete('/{id}', 'UserController@delete');
     Route::patch('/{id}', 'UserController@update');
 });

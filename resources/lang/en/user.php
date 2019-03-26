@@ -14,10 +14,12 @@ return [
     'action' => 'Actions',
     'admin' => 'Admin',
     'user' => 'User',
+    'password' => 'Password',
     'remove' => 'Remove',
     'groups' => 'Groups',
     'edit roles' => 'Edit Roles',
     'delete user conform' => 'Are you sure you want to Remove?',
+    'submit changes' => 'Submit Changes'
 
 
 
