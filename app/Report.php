@@ -38,10 +38,11 @@ class Report extends Model
 
     public function getThumbnail()
     {
+        // return $this->multimedia()->get();
         foreach ($this->multimedia()->get() as $multimedia) {
             $file = Storage::mimeType($multimedia->path);
             if (substr($file, 0, 5) == 'image') {
-                return $multimedia->id;
+                return $multimedia->getURL();
             }
         }
     }

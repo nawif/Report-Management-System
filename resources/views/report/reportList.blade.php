@@ -5,7 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>Blog Home - Start Bootstrap Template</title>
+      <title>@lang('report.app name')</title>
       <!-- Bootstrap core CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
          crossorigin="anonymous">
@@ -23,7 +23,7 @@
             <div class="col-md-8">
                <br>
                <!-- Blog Post -->
-               @if($reports)
+               @if(!$reports)
                    <h1>@lang('report.no report')</h1>
                @endif
                @foreach ($reports as $report)
@@ -36,7 +36,7 @@
                      <a href="{{ url('/report/view/' . $report['id']) }}" class="btn btn-primary">Read More &rarr;</a>
                   </div>
                   <div class="card-footer text-muted">
-                     Posted on {{$report['created_at']}} by
+                      @lang('report.posted on',['date' => $report['created_at']])
                      <a href="{{ url('/report/author/'.str_replace(' ','-',$report['author']['name']))}}">{{$report['author']['name']}}</a>
                   </div>
                </div>

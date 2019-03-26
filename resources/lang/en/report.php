@@ -30,6 +30,8 @@ return [
     'report name' => 'Report Name',
     'group' => 'Group',
     'no report' => 'Sorry, no reports to view',
+    'posted on' => 'Posted on :date',
+    'files' => 'files attached'
 
 
 

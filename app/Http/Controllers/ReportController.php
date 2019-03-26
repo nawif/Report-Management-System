@@ -20,9 +20,8 @@ class ReportController extends Controller
         Routes Method
     */
     public function getReport($id){
-        $reportData= new ReportResource(Report::find($id));
-        $reportData = $reportData->toArray($reportData);
-        return view('report.reportPage',['reports'=> $reportData]);
+        $report= Report::find($id);
+        return view('report.reportPage',['reports'=> $report]);
     }
 
     public function getCreateReportPage(){

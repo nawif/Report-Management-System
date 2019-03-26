@@ -30,16 +30,6 @@ class GroupController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -74,16 +64,6 @@ class GroupController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -121,11 +101,14 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        $group = Group::find($id)->delete();
-        if($group)
-            return redirect()->action(
-                'GroupController@index', ['type'=>'success','message' => 'Group information deleted!']
+        $group = Group::find($id);
+        if($group){
+            $group->delete();
+           return redirect()->action(
+                'GroupController@index', ['type'=>'success','message' => 'Group deleted!']
             );
+        }
+
         else
             return redirect()->action(
                 'GroupController@index', ['type'=>'danger','message' => 'No group with such id']
