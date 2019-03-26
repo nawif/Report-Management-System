@@ -18,7 +18,10 @@
             <a class="nav-link" href={{url('/group')}}>Groups</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Account</a>
+            <a class="nav-link" href={{url('/user/me')}}>Edit Account</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href={{url('/user/logout')}}>Logout</a>
           </li>
 
         </ul>

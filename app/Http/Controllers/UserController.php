@@ -22,7 +22,6 @@ class UserController extends Controller
         if($alertType && $alertMessage){
             $alert['type']=$alertType;
             $alert['message']=$alertMessage;
-
         }
 
         $users = User::paginate(15);
@@ -83,4 +82,12 @@ class UserController extends Controller
         $user->save();
         return view('auth.editUser',['user'=>$user]);
     }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
+
+
 }

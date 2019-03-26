@@ -35,6 +35,8 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::patch('/me', 'UserController@edit');
     Route::delete('/{id}', 'UserController@delete');
     Route::patch('/{id}', 'UserController@update');
+    Route::get('/logout', 'UserController@logout');
+
 });
 
 Route::prefix('group')->middleware('auth')->group(function () {
