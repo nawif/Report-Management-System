@@ -10,12 +10,14 @@
           <li class="nav-item">
             <a class="nav-link" href={{url('/report/create')}}>@lang('nav.create report')</a>
           </li>
+          @if (Auth::user()->is_admin)
           <li class="nav-item">
             <a class="nav-link" href={{url('/user')}}>@lang('nav.users')</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href={{url('/group')}}>@lang('nav.groups')</a>
           </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link" href={{url('/user/me')}}>@lang('nav.edit account')</a>
           </li>
