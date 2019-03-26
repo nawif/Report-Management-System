@@ -24,7 +24,7 @@
                <!-- Author -->
                <p class="lead">
                   @lang('report.by')
-                  <a href="#">{{$reports->author->name}}</a>
+                  <a href="{{ url('/report/author/'.str_replace(' ','-',$reports->author->name))}}">{{$reports->author->name}}</a>
                </p>
                <hr>
                <!-- Date/Time -->

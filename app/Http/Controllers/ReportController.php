@@ -85,6 +85,28 @@ class ReportController extends Controller
         return view('report.reportList', ['reports' => $reports]);
     }
 
+    //returns the edit form
+    public function edit($id){
+        $report = Report::find($id);
+        return view('report.editReport', ['report' => $report]);
+    }
+
+    public function update(CreateReport $request, $id){
+        $request->validated();
+        $report = Report::find($id);
+        // dd();
+        $report->update($request->Input());
+        $tags = $request->Input('tags');
+        if($tags){
+            $report->tags()->detach();
+            $this->createTags(['tag' => $tags], $report);
+        }
+        $report->save();
+        return view('report.editReport', ['report' => $report]);
+    }
+
+
+
     /*
         Helpers
     */
@@ -132,7 +154,10 @@ class ReportController extends Controller
             $tags=array_unique(explode(',', $request['tag']));
             foreach ($tags as $tag) {
                 $tagInsert['name']=$tag;
-                $existingTag= Tag::where('name','=',strtolower($tagInsert['name']))->first();
+                if(empty(ltrim(strtolower($tagInsert['name']))))
+                    continue;
+                    
+                $existingTag= Tag::where('name','=',ltrim(strtolower($tagInsert['name'])))->first();
                 if($existingTag){
                     $report->tags()->attach($existingTag);
                     continue;
@@ -198,5 +223,6 @@ class ReportController extends Controller
         $reports= $this->prepareReports($reportsCollection);
         return $reports;
     }
+
 
 }

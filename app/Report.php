@@ -12,7 +12,7 @@ class Report extends Model
      *
      * @var array
      */
-     protected $fillable = ['title','body', 'author_id', 'group_id'];
+    protected $fillable = ['title', 'body', 'author_id', 'group_id'];
 
 
     public function multimedia()
@@ -22,7 +22,7 @@ class Report extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Tag','report_tags') ;
+        return $this->belongsToMany('App\Tag', 'report_tags');
     }
 
     public function author()
@@ -47,4 +47,18 @@ class Report extends Model
         }
     }
 
+    public function tagsToString()
+    {
+        $tags = null;
+        $i = 0;
+        $len = count($this->tags);
+        foreach ($this->tags as $tag) {
+            $tags .= $tag->name;
+            if ($i != $len - 1) {
+                $tags .= ",";
+            }
+            $i++;
+        }
+        return $tags;
+    }
 }

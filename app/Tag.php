@@ -16,4 +16,5 @@ class Tag extends Model
     {
         return $this->belongsToMany('App\Report','report_tags') ;
     }
+
 }

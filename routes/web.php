@@ -22,6 +22,11 @@ Route::prefix('report')->middleware('auth')->group(function () {
     Route::post('/create', 'ReportController@createReport');
     Route::get('/create', 'ReportController@getCreateReportPage');
 
+    Route::get('/edit/{id}', 'ReportController@edit');
+    Route::patch('/edit/{id}', 'ReportController@update');
+
+
+
     // search
     Route::get('/search', 'ReportController@search');
     Route::get('/author/{author_id}', 'ReportController@getAuthorReportList');

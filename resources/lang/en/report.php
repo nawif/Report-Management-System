@@ -23,7 +23,7 @@ return [
     'tags' => 'Tags',
     'filesAttached' => 'Files Attached',
     'nothing found' => 'Nothing Found',
-
+    'edit report' => 'Edit Report',
     'author' => 'Author',
     'tags' => 'Tags',
     'report content' => 'Report Content',
