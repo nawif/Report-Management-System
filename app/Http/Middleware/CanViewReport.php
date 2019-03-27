@@ -2,13 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Auth;
-
-
 use Closure;
 use App\Report;
+use Illuminate\Support\Facades\Auth;
 
-class CanViewReport
+class canViewReport
 {
     /**
      * Handle an incoming request.
@@ -20,12 +18,10 @@ class CanViewReport
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        $authGroups=$user->getGroups();
-        $report = Report::find($request->report_id);
-        if(in_array($report->group(),$authGroups)){
+        $report = Report::find($request->id)->where('group_id', $user->id);
+        if( $user->canView() && $report)
             return $next($request);
-        }
-        dd('unauth');
-        // return $next($request);
+        else
+            return redirect('/');
     }
 }
