@@ -25,7 +25,7 @@ Route::prefix('report')->middleware('auth')->group(function () {
     Route::get('/edit/{id}', 'ReportController@edit');
     Route::patch('/edit/{id}', 'ReportController@update');
 
-
+    Route::delete('/{id}', 'ReportController@delete');
 
     // search
     Route::get('/search', 'ReportController@search');
@@ -39,7 +39,7 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('/me', 'UserController@editForm');
     Route::patch('/me', 'UserController@edit');
     Route::delete('/{id}', 'UserController@delete');
-    Route::patch('/{id}', 'UserController@update');
+    Route::patch('/{id}/{type}', ['as' => 'editUser', 'uses' => 'UserController@update']);
     Route::get('/logout', 'UserController@logout');
 
 });

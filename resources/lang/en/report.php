@@ -33,4 +33,6 @@ return [
     'posted on' => 'Posted on :date',
     'files' => 'files attached',
     'edit' => 'Edit Report',
+    'delete' => 'Delete Report',
+
 ];

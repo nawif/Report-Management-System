@@ -13,6 +13,7 @@ use App\ReportMultimedia;
 use App\User;
 use App\Http\Resources\Report as ReportResource;
 use App\Http\Requests\CreateReport;
+use Illuminate\Support\Facades\Input;
 
 class ReportController extends Controller
 {
@@ -35,13 +36,21 @@ class ReportController extends Controller
         $report= Report::create($data);
         $this->createTags($data, $report);
         $this->storeFiles($request, $report->id);
-        $this->getReportList();
-        return $this->getReportList(['type'=>'success','message' => 'report  created successfully']);
+        return redirect()->action(
+            'ReportController@getReportList', ['type'=>'success','message' => 'report  created successfully']
+        );
 
     }
 
     public function getReportList($alert = null){
         $reportData = $this->getAuthorizedArticles();
+        $alertType=Input::get('type');
+        $alertMessage=Input::get('message');
+
+        if($alertType && $alertMessage){
+            $alert['type']=$alertType;
+            $alert['message']=$alertMessage;
+        }
         return view('report.reportList', ['reports' => $reportData , 'alert' => $alert]);
 
     }
@@ -52,7 +61,9 @@ class ReportController extends Controller
         if($reports)
             return view('report.reportList', ['reports' => $reports]);
         else
-            return $this->getReportList(['type'=>'danger','message' => 'there are no results that match your search']);
+        return redirect()->action(
+            'ReportController@getReportList', ['type'=>'danger','message' => 'there are no results that match your search']
+        );
     }
 
     public function search(Request $request)
@@ -61,7 +72,9 @@ class ReportController extends Controller
         $searchVal = $request->get('searchVal');
         $queryResult = $this->querySearch($searchBy, $searchVal);
         if(!$queryResult)
-            return $this->getReportList(['type'=>'danger','message' => 'there are no results that match your search']);
+        return redirect()->action(
+            'ReportController@getReportList', ['type'=>'danger','message' => 'there are no results that match your search']
+        );
         if(in_array($searchBy,['content', 'title'])){
             $reports = $this->prepareReports($queryResult);
             return view('report.reportList', ['reports' => $reports]);
@@ -78,7 +91,9 @@ class ReportController extends Controller
         $tag = str_replace('-',' ',$tag);
         $Tag = Tag::where('name', '=',$tag)->first();
         if(!$Tag){
-            return $this->getReportList(['type'=>'danger','message' => 'no reports with such tag']);
+            return redirect()->action(
+                'ReportController@getReportList', ['type'=>'danger','message' => 'no reports with such tag']
+            );
         }
         $reports=$Tag->reports()->whereIn('group_id',$userGroups)->get();
         $reports = $this->prepareReports($reports);
@@ -108,6 +123,23 @@ class ReportController extends Controller
     }
 
 
+    public function delete($id)
+    {
+        # code...
+        $user = Auth::user();
+        $GroupsIDs=$user->getGroupsID();
+        $report=Report::whereIn('group_id',$GroupsIDs)->where('id',$id);
+        if($report){
+            $report->delete();
+            return redirect()->action(
+                'ReportController@getReportList', ['type'=>'success','message' => 'Report delete!']
+            );
+        }else
+            return redirect()->action(
+                'ReportController@getReportList', ['type'=>'danger','message' => 'no such Report!']
+            );
+
+    }
 
     /*
         Helpers

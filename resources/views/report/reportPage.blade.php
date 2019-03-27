@@ -42,9 +42,14 @@
             </div>
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
-                <div style="margin-top:65px" >
+                <div class="row" style="margin-left:0px ;margin-top:65px" >
                         <form method="GET" action={{url('report/edit/'.$reports->id)}}>
                     <button type="submit" class="btn btn-primary btn-lg">@lang('report.edit')</button>
+                        </form>
+                        <form style="margin-left:15px" method="POST" action={{url('report/'.$reports->id)}}>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-lg">@lang('report.delete')</button>
                         </form>
                 </div>
 
