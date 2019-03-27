@@ -15,17 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('report')->middleware('auth')->group(function () {
+Route::prefix('report')->middleware(['auth', 'CanView'])->group(function () {
     Route::get('/home', 'ReportController@getReportList');
-    Route::get('/view/{id}', 'ReportController@getReport');
+    Route::get('/view/{id}', 'ReportController@getReport')->middleware('CanViewReport');
 
-    Route::post('/create', 'ReportController@createReport');
-    Route::get('/create', 'ReportController@getCreateReportPage');
+    Route::post('/create', 'ReportController@createReport')->middleware('CanCreate');
+    Route::get('/create', 'ReportController@getCreateReportPage')->middleware('CanCreate');
 
-    Route::get('/edit/{id}', 'ReportController@edit');
+    Route::get('/edit/{id}', 'ReportController@edit')->middleware(['CanEdit', 'CanViewReport']);
     Route::patch('/edit/{id}', 'ReportController@update');
 
-    Route::delete('/{id}', 'ReportController@delete');
+    Route::delete('/{id}', 'ReportController@delete')->middleware(['CanDelete', 'CanViewReport']);
 
     // search
     Route::get('/search', 'ReportController@search');
@@ -35,27 +35,27 @@ Route::prefix('report')->middleware('auth')->group(function () {
 
 
 Route::prefix('user')->middleware('auth')->group(function () {
-    Route::get('/', 'UserController@index');
     Route::get('/me', 'UserController@editForm');
     Route::patch('/me', 'UserController@edit');
-    Route::delete('/{id}', 'UserController@delete');
-    Route::patch('/{id}/{type}', ['as' => 'editUser', 'uses' => 'UserController@update']);
     Route::get('/logout', 'UserController@logout');
+
+    //ADMIN ONLY
+    Route::get('/', 'UserController@index')->middleware('checkIfAdmin');
+    Route::delete('/{id}', 'UserController@delete')->middleware('checkIfAdmin');
+    Route::patch('/{id}/{type}', ['as' => 'editUser', 'uses' => 'UserController@update'])->middleware('checkIfAdmin');
 
 });
 
-Route::prefix('group')->middleware('auth')->group(function () {
+Route::prefix('group')->middleware(['auth', 'checkIfAdmin'])->group(function () {
     Route::get('/', 'GroupController@index');
     Route::delete('/{id}', 'GroupController@destroy');
     Route::patch('/{id}', 'GroupController@update');
     Route::post('/create', 'GroupController@store');
     Route::get('/user/{id}', 'GroupController@showUserList');
-
 });
 
 
 Auth::routes();
-
 
 Route::get('/home', 'HomeController@index')->name('home');
 
