@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <form style="display:inline-block" method="POST" action={{url( 'user/'.$user->id)}} accept-charset="UTF-8" > @csrf @method('PATCH')
+                <form style="display:inline-block" method="POST" action={{route('editUser',['id'=>$user->id,'type'=>'roles'])}} accept-charset="UTF-8" > @csrf @method('PATCH')
                     <h5 class="modal-title" id="exampleModalLabel">@lang('user.edit user roles',['name' => $user->name])</h5>
             </div>
             <div class="modal-body">

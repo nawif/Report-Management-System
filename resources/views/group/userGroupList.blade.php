@@ -12,7 +12,7 @@
     @include('shared.nav')
     <div class="container">
     @include('shared.alert')
-    <form method="POST" action={{url( 'user/'.$user->id)}} accept-charset="UTF-8" > @csrf @method('PATCH')
+    <form method="POST" action={{route('editUser',['id'=>$user->id,'type'=>'groups'])}} accept-charset="UTF-8" > @csrf @method('PATCH')
         <button type="submit" data-toggle="modal" data-target="#create" class="btn btn-success">
          @lang('group.save')
     </button>

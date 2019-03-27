@@ -31,16 +31,18 @@ class UserController extends Controller
     }
 
     //ONLY ADMIN
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $type)
     {
         $user = User::findOrFail($id);
         $roles = $request->input('roles');
         $groups = $request->input('groups');
         if($roles)
             $user->roles()->sync($roles);
+            else
+                if($type == 'roles')
+                    $user->roles()->detach();
         if($groups)
             $user->groups()->sync($groups);
-
         return redirect()->action(
             'UserController@index', ['type'=>'success','message' => 'User '.$user->name.' information updated!']
         );
