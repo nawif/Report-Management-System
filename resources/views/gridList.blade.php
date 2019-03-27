@@ -40,10 +40,6 @@
         </div>
   <!-- /.container -->
 
-
-
-
-
 </body>
 
 </html>

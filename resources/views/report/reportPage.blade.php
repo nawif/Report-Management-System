@@ -6,10 +6,8 @@
       <meta name="description" content={{$reports->title}}>
       <meta name="author" content={{$reports->title}}>
       <title>{{$reports->title}}</title>
-      <!-- Bootstrap core CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <!-- Custom styles for this template -->
-      <link href="{{ asset('css/blog-post.css') }}" rel="stylesheet">
+      @include('shared.dependencies')
+
    </head>
    <body>
       <!-- Navigation -->
@@ -43,14 +41,19 @@
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
                 <div class="row" style="margin-left:0px ;margin-top:65px" >
+                        @if (Auth::user()->canEdit())
                         <form method="GET" action={{url('report/edit/'.$reports->id)}}>
-                    <button type="submit" class="btn btn-primary btn-lg">@lang('report.edit')</button>
+                            <button type="submit" class="btn btn-primary btn-lg">@lang('report.edit')</button>
                         </form>
+                        @endif
+                        @if (Auth::user()->canDelete())
                         <form style="margin-left:15px" method="POST" action={{url('report/'.$reports->id)}}>
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-lg">@lang('report.delete')</button>
                         </form>
+                        @endif
+
                 </div>
 
                <!-- Search Widget -->
