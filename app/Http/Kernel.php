@@ -60,8 +60,13 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'canView' => \App\Http\Middleware\CanViewReport::class,
+
+        'CanView' => \App\Http\Middleware\CanView::class,
         'checkIfAdmin' => \App\Http\Middleware\CheckIfAdmin::class,
+        'CanViewReport' => \App\Http\Middleware\canViewReport::class,
+        'CanDelete' => \App\Http\Middleware\canDelete::class,
+        'CanEdit' => \App\Http\Middleware\canEdit::class,
+        'CanCreate' => \App\Http\Middleware\CanCreate::class,
     ];
 
     /**
