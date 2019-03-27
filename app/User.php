@@ -62,4 +62,24 @@ class User extends Authenticatable
         return $this->groups()->pluck('id')->toArray();
     }
 
+    public function canCreate()
+    {
+        return $this->roles()->get()->contains('name', "Create");
+    }
+
+    public function canEdit()
+    {
+        return $this->roles()->get()->contains('name', "Edit");
+    }
+
+    public function canDelete()
+    {
+        return $this->roles()->get()->contains('name', "Delete");
+    }
+
+    public function canView()
+    {
+        return $this->roles()->get()->contains('name', "View");
+    }
+
 }
