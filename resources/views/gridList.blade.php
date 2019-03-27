@@ -10,11 +10,7 @@
 
   <title>{{$title}}</title>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-  <!-- Custom styles for this template -->
-  <link href="{{ asset('css/blog-home.css') }}" rel="stylesheet">
+  @include('shared.dependencies')
 
 </head>
 
@@ -26,10 +22,10 @@
   <!-- Page Content -->
   <div class="container">
         <p class="h1">{{$title.":"}}</p>
-        @if(is_array($list) || is_object($list))
+        @if($list)
         <div class="row ">
             @foreach ($list as $item)
-            <div class="col-4"> <a href={{ url('report/'.$title.'/'.str_replace(' ','-',$item['name'])) }}>{{$item["name"]}}</a> </div>
+            <div class="col-4"> <a href={{ url('report/'.$title.'/'.str_replace(' ','-',$item->name)) }}>{{$item->name}}</a> </div>
 
             @endforeach
         </div>
@@ -39,7 +35,9 @@
         </blockquote>
         @endif
         <!-- /.row -->
-  </div>
+                       <!-- Pagination -->
+                    {{ $list->appends(['searchVal' => app('request')->input('searchVal'), 'searchBy' => app('request')->input('searchBy')])->links() }}
+        </div>
   <!-- /.container -->
 
 

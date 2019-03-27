@@ -27,16 +27,16 @@
                @endif
                @foreach ($reports as $report)
                <div class="card mb-4">
-                  @isset($report['thumbnail'])
-                  <img id="thumbnail" class="thumb" src={{$report[ 'thumbnail'][ 'url']}} alt="Card image cap"> @endisset
+                  @if($report->getThumbnail())
+                  <img id="thumbnail" class="thumb" src={{$report->getThumbnail()}} alt="Card image cap"> @endif
                   <div class="card-body">
-                     <h2 class="card-title">{{$report['title']}}</h2>
-                     <p class="card-text">{{str_limit($report['body'],200)}}</p>
-                     <a href="{{ url('/report/view/' . $report['id']) }}" class="btn btn-primary">Read More &rarr;</a>
+                     <h2 class="card-title">{{$report->title}}</h2>
+                     <p class="card-text">{{str_limit($report->body,200)}}</p>
+                     <a href="{{ url('/report/view/' . $report->id) }}" class="btn btn-primary">Read More &rarr;</a>
                   </div>
                   <div class="card-footer text-muted">
-                      @lang('report.posted on',['date' => $report['created_at']])
-                     <a href="{{ url('/report/author/'.str_replace(' ','-',$report['author']['name']))}}">{{$report['author']['name']}}</a>
+                      @lang('report.posted on',['date' => $report->created_at])
+                     <a href="{{ url('/report/author/'.str_replace(' ','-',$report->author->name))}}">{{$report->author->name}}</a>
                   </div>
                </div>
                @endforeach

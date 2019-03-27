@@ -76,13 +76,13 @@ class ReportController extends Controller
             'ReportController@getReportList', ['type'=>'danger','message' => 'there are no results that match your search']
         );
         if(in_array($searchBy,['content', 'title'])){
-            $reports = $this->prepareReports($queryResult);
+            $reports = $queryResult->paginate(15);
             return view('report.reportList', ['reports' => $reports]);
 
         }else{
-
-        }
+            $queryResult = $queryResult->paginate(40);
             return view('gridList',['list' => $queryResult, 'title' => $searchBy]);
+        }
     }
 
     public function getReportsByTag($tag){
@@ -95,8 +95,7 @@ class ReportController extends Controller
                 'ReportController@getReportList', ['type'=>'danger','message' => 'no reports with such tag']
             );
         }
-        $reports=$Tag->reports()->whereIn('group_id',$userGroups)->get();
-        $reports = $this->prepareReports($reports);
+        $reports=$Tag->reports()->whereIn('group_id',$userGroups)->paginate(15);
         return view('report.reportList', ['reports' => $reports]);
     }
 
@@ -156,17 +155,17 @@ class ReportController extends Controller
         $userGroupsIds = $user->getGroupsID();
         switch ($searchBy) {
             case 'author':
-            $authors=User::where('name', 'like', '%'.$searchVal.'%')->get()->toArray();
+            $authors=User::where('name', 'like', '%'.$searchVal.'%');
             return($authors);
             case 'tag':
-                $tags = Tag::where('name', 'like', '%'.$searchVal.'%')->get()->toArray();
+                $tags = Tag::where('name', 'like', '%'.$searchVal.'%');
                 return($tags);
             case 'content':
-                $reports = Report::whereIn('group_id',$userGroupsIds)->where('body','like','%'.$searchVal.'%')->get();
+                $reports = Report::whereIn('group_id',$userGroupsIds)->where('body','like','%'.$searchVal.'%');
                 return($reports);
                 break;
             case 'title':
-                $reports = Report::whereIn('group_id',$userGroupsIds)->where('title','like','%'.$searchVal.'%')->get();
+                $reports = Report::whereIn('group_id',$userGroupsIds)->where('title','like','%'.$searchVal.'%');
                 return($reports);
                 break;
             case 'group':
@@ -229,20 +228,11 @@ class ReportController extends Controller
         return $data;
     }
 
-    public function paginate($items, $perPage = 15, $page = null)
-    {
-        $options = ['path' => Paginator::resolveCurrentPath()];
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
-    }
-
     public function getAuthorizedArticles()
     {
         $user = Auth::user();
         $GroupsIDs=$user->getGroupsID();
-        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->get();
-        $reports= $this->prepareReports($reportsCollection);
+        $reports=Report::whereIn('group_id',$GroupsIDs)->paginate(15);
         return $reports;
     }
 
@@ -254,8 +244,8 @@ class ReportController extends Controller
         if(!$author)
             return null;
         $author_id=$author->id;
-        $reportsCollection=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->get();
-        $reports= $this->prepareReports($reportsCollection);
+        $reports=Report::whereIn('group_id',$GroupsIDs)->where('author_id','=',$author_id)->paginate(15);
+
         return $reports;
     }
 
