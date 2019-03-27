@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>@lang('report.create report')</title>
+  <title>@lang('user.profile page')</title>
   @include('shared.dependencies')
 </head>
 
@@ -12,15 +12,6 @@
         <!-- Navigation -->
       @include('shared.nav')
       <div class="container" >
-            {{-- @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif --}}
         <form method="post" action="{{url('user/me')}}" accept-charset="UTF-8" enctype="multipart/form-data">
             @method('PATCH')
             @csrf
@@ -30,8 +21,12 @@
                     <input required name="name" value="{{$user->name}}" type="text" class="form-control" id="nameInput" placeholder="Nawaf alquaid">
                     </div>
                     <div class="form-group">
-                    <label for="passwordInput">@lang('user.password')</label>
+                    <label for="passwordInput">@lang('user.password1')</label>
                     <input required name="password" type="password" placeholder="***********"  class="form-control" id="passwordInput">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput2">@lang('user.password2')</label>
+                        <input required name="password_confirmation" type="password" placeholder="***********"  class="form-control" id="passwordInput2">
                     </div>
 
                     <button type="submit" class="btn btn-primary">@lang('user.submit changes')</button>

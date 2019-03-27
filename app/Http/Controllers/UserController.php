@@ -76,7 +76,8 @@ class UserController extends Controller
         $user = Auth::user();
         $request->validate([
             'name' => 'required|unique:users,name,'.$user->id.'|max:40',
-            'password' => 'required|min:10|max:40',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6'
         ]);
         $user = Auth::user();
         $user->name=$request->input('name');
