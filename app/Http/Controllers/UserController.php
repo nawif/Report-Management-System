@@ -76,12 +76,13 @@ class UserController extends Controller
         $user = Auth::user();
         $request->validate([
             'name' => 'required|unique:users,name,'.$user->id.'|max:40',
-            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'min:6'
+            'password' => 'nullable|min:6|same:password_confirmation',
+            'password_confirmation' => 'nullable|min:6'
         ]);
         $user = Auth::user();
         $user->name=$request->input('name');
-        $user->password=Hash::make($request->input('password'));
+        if($request->input('password'))
+            $user->password=Hash::make($request->input('password'));
         $user->save();
         return view('auth.editUser',['user'=>$user]);
     }
