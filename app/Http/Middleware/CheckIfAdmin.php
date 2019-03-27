@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CheckIfAdmin
 {
@@ -16,8 +17,8 @@ class CheckIfAdmin
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if($user->type == 'admin')
+        if($user->is_admin)
             return $next($request);
-        dd('error unauth');
+        return redirect('/');
     }
 }
