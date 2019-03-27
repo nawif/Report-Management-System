@@ -8,6 +8,12 @@ return [
     'groups' => 'Groups',
     'edit account' => 'Edit Account',
     'logout' => 'Logout',
+    'login' => 'Login',
+    'register' => 'Register',
+    'app name' => 'Report Management System',
+    'home' => 'Report Home',
+    'github' => 'GitHub',
+
 
 
 ];

@@ -70,10 +70,10 @@
                     @auth
 
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">@lang('nav.login')</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">@lang('nav.register')</a>
                         @endif
                     @endauth
                 </div>
@@ -81,17 +81,20 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Report Management System
-
+                    @lang('nav.app name')
                 </div>
 
                 <div class="links">
                     @auth
-                        <a href={{url('report/home')}}>Report Home</a>
-                        <a href={{url('report/home')}}>Create Report</a>
-                        <a href={{url('user/me')}}>My Account</a>
+                        @if ((Auth::user()->canView()))
+                            <a href={{url('report/home')}}>@lang('nav.home')</a>
+                        @endif
+                        @if ((Auth::user()->canCreate()))
+                            <a href={{url('report/create')}}>@lang('nav.create report')</a>
+                        @endif
+                        <a href={{url('user/me')}}>@lang('nav.edit account')</a>
                     @endauth
-                    <a href="https://github.com/nawif/">GitHub</a>
+                    <a href="https://github.com/nawif/">@lang('nav.github')</a>
                 </div>
             </div>
         </div>
