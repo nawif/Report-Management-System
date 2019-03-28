@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::prefix('user')->group(function () {
+    Route::post('/create', 'MigrationController@createUser');
+});
+Route::prefix('report')->group(function () {
+    Route::post('/create', 'MigrationController@createReport');
+    Route::post('/create/{id}', 'MigrationController@attachFilesToReport');
+
+});
+Route::prefix('group')->group(function () {
+    Route::post('/create', 'MigrationController@createGroup');
 });
